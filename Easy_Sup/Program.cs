@@ -17,7 +17,7 @@ namespace Easy_Sup
         }
         private static void On_LoadGame()
         {
-            Chat.PrintChat("Supported Champions: Blitz , Soraka");
+            Chat.PrintChat("Supported Champions: Blitz , Soraka, Lux");
             Chat.PrintChat("SPrediction Port By Mask");
             if (ObjectManager.Player.CharacterName == "Soraka")
             {
