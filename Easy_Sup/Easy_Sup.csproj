@@ -65,6 +65,7 @@
     <Compile Include="scripts\Lux.cs" />
     <Compile Include="scripts\Pyke.cs" />
     <Compile Include="scripts\Soraka.cs" />
+    <Compile Include="scripts\Thresh.cs" />
     <Compile Include="SPrediction\AIHeroClientExtensions.cs" />
     <Compile Include="SPrediction\ArcPrediction.cs" />
     <Compile Include="SPrediction\CirclePrediction.cs" />

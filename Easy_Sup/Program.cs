@@ -35,10 +35,15 @@ namespace Easy_Sup
                 Lux.Load();
                 Chat.PrintChat("Partial Port of ChewyMoon Lux Load");
             }
-            else if(ObjectManager.Player.CharacterName == "Pyke")
+            else if (ObjectManager.Player.CharacterName == "Pyke")
             {
                 Pyke.On_Load();
-                Chat.PrintChat("Pyke Load");
+                Chat.PrintChat("011110001.Pyke Load");
+            }
+            else if (ObjectManager.Player.CharacterName == "Thresh")
+            {
+                Thresh.OnLoad();
+                Chat.PrintChat("011110001.Thresh Load");
             }
         }
     }

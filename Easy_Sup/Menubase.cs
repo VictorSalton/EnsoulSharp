@@ -162,5 +162,32 @@ namespace Easy_Sup
             public static readonly MenuBool draw = new MenuBool("draw", "Draw Q Min/Max Range");
         }
 
+
+        //Thresh
+
+        public class thresh_combat
+        {
+            public static readonly MenuBool Q = new MenuBool("qt", "Use Q");
+            public static readonly MenuSlider qhit = new MenuSlider("qthit", "^ Q - Hitchance (1-Low ~ 4-Very High", 3, 1, 4);
+            public static readonly MenuBool W = new MenuBool("wt", "Use W");
+            public static readonly MenuBool E = new MenuBool("et", "Use E");
+            public static readonly MenuSlider emodo = new MenuSlider("emod", "^ 0-Push 1-Pull", 0, 0, 1);
+            public static readonly MenuBool R = new MenuBool("rt", "Use R");
+            public static readonly MenuSlider Rcount = new MenuSlider("rcount", "^ Use R if enemies >= X", 2, 1, 5);
+        }
+        public class thresh_harass
+        {
+            public static readonly MenuBool Q = new MenuBool("qht", "Use Q(Harass Q uses the same combo Hitchance)");
+            public static readonly MenuBool E = new MenuBool("eht", "Use E");
+            public static readonly MenuSlider emodo = new MenuSlider("emod1", "^ 0-Push 1-Pull", 0, 0, 1);
+        }
+        public class thresh_misc
+        {
+            public static readonly MenuBool Ein = new MenuBool("etin", "Use E to interrupt");
+            public static readonly MenuBool Egap = new MenuBool("etgap", "Use E on Gapcloser");
+        }
+
+
+
     }
 }
