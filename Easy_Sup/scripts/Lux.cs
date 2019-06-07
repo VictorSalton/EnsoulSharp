@@ -1,6 +1,7 @@
 ﻿using EnsoulSharp;
 using EnsoulSharp.SDK;
 using EnsoulSharp.SDK.MenuUI;
+using EnsoulSharp.SDK.MenuUI.Values;
 using EnsoulSharp.SDK.Prediction;
 using SharpDX;
 using SPrediction;
@@ -38,6 +39,7 @@ namespace Easy_Sup.scripts
             CreateMenu();
 
             Game.OnUpdate += Game_OnGameUpdate;
+            Gapcloser.OnGapcloser += AntiGapcloserOnOnEnemyGapcloser;
 
             GameObject.OnCreate += delegate (GameObject sender, EventArgs args)
             {
@@ -95,6 +97,9 @@ namespace Easy_Sup.scripts
             jgsteal.Add(Menubase.lux_steal.blue);
             jgsteal.Add(Menubase.lux_steal.dragon);
             jgsteal.Add(Menubase.lux_steal.baron);
+            var hitchance = new Menu("hitchance", "Hitchance Config");
+            hitchance.Add(Menubase.lux_hit.Qhit);
+            hitchance.Add(Menubase.lux_hit.Ehit);
 
             menu.Add(qconfig);
             menu.Add(wconfig);
@@ -102,6 +107,7 @@ namespace Easy_Sup.scripts
             menu.Add(rconfig);
             menu.Add(ks);
             menu.Add(clear);
+            menu.Add(hitchance);
             var spred = new Menu("Spred", "SPrediction Config");
             Prediction.Initialize(spred);
             //menu.Add(jgsteal);
@@ -150,7 +156,7 @@ namespace Easy_Sup.scripts
                 return;
             }
 
-            Q.Cast(sender);
+            Q.SPredictionCast(sender, HitChance.Medium);
         }
 
         private static void AutoW()
@@ -173,7 +179,23 @@ namespace Easy_Sup.scripts
         }
         private static void CastE(AIHeroClient target)
         {
-            //TODO: Remake this
+            var ehit = HitChance.Medium;
+            switch (Menubase.lux_hit.Ehit.Value)
+            {
+                case 1:
+                    ehit = HitChance.Low;
+                    break;
+                case 2:
+                    ehit = HitChance.Medium;
+                    break;
+                case 3:
+                    ehit = HitChance.High;
+                    break;
+                case 4:
+                    ehit = HitChance.VeryHigh;
+                    break;
+            }
+
             if (EActivated)
             {
                 if (
@@ -201,19 +223,35 @@ namespace Easy_Sup.scripts
             }
             else
             {
-                E.SPredictionCast(target, HitChance.Medium);
+                E.SPredictionCast(target, ehit);
             }
         }
 
         private static void CastQ(AIHeroClient target)
         {
+            var qhit = HitChance.Medium;
+            switch (Menubase.lux_hit.Qhit.Value)
+            {
+                case 1:
+                    qhit = HitChance.Low;
+                    break;
+                case 2:
+                    qhit = HitChance.Medium;
+                    break;
+                case 3:
+                    qhit = HitChance.High;
+                    break;
+                case 4:
+                    qhit = HitChance.VeryHigh;
+                    break;
+            }
             var input = Q.GetSPrediction(target);
             var col = Q.GetCollisions(target.Position.ToVector2());
             var unit = col.Units;
             var minions = unit.Where(x => !(x is AIHeroClient)).Count(x => x.IsMinion);
             if (minions <= 1)
             {
-                Q.SPredictionCast(target, HitChance.Medium);
+                Q.SPredictionCast(target, qhit);
             }
         }
 

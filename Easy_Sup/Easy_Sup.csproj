@@ -63,6 +63,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="scripts\Blitz.cs" />
     <Compile Include="scripts\Lux.cs" />
+    <Compile Include="scripts\Pyke.cs" />
     <Compile Include="scripts\Soraka.cs" />
     <Compile Include="SPrediction\AIHeroClientExtensions.cs" />
     <Compile Include="SPrediction\ArcPrediction.cs" />

@@ -17,7 +17,7 @@ namespace Easy_Sup
         }
         private static void On_LoadGame()
         {
-            Chat.PrintChat("Supported Champions: Blitz , Soraka, Lux");
+            Chat.PrintChat("Supported Champions: Blitz , Soraka, Lux, Pyke");
             Chat.PrintChat("SPrediction Port By Mask");
             if (ObjectManager.Player.CharacterName == "Soraka")
             {
@@ -34,6 +34,11 @@ namespace Easy_Sup
             {
                 Lux.Load();
                 Chat.PrintChat("Partial Port of ChewyMoon Lux Load");
+            }
+            else if(ObjectManager.Player.CharacterName == "Pyke")
+            {
+                Pyke.On_Load();
+                Chat.PrintChat("Pyke Load");
             }
         }
     }
