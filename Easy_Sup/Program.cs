@@ -30,6 +30,11 @@ namespace Easy_Sup
                 Chat.PrintChat("Blitzcrank Script Load");
                 Chat.PrintChat("This script is a Port of KurisuBlitz (Code of Kurisu)");
             }
+            else if (ObjectManager.Player.CharacterName == "Lux")
+            {
+                Lux.Load();
+                Chat.PrintChat("Partial Port of ChewyMoon Lux Load");
+            }
         }
     }
 }
