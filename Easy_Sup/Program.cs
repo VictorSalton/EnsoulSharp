@@ -1,4 +1,5 @@
-﻿using Easy_Sup.scripts;
+﻿using Easy_Sup.Properties;
+using Easy_Sup.scripts;
 using EnsoulSharp;
 using EnsoulSharp.SDK;
 using EnsoulSharp.SDK.Utility;
@@ -22,6 +23,11 @@ namespace Easy_Sup
         }
         private static void On_LoadGame()
         {
+            logo = new Render.Sprite(LoadImg("lgo"), new Vector2(Drawing.Width / 2 - 250, Drawing.Height / 2 - 250));
+            logo.Add(0);
+            logo.OnDraw();
+
+            DelayAction.Add(7000, () => logo.Remove());
 
             Chat.PrintChat("Supported Champions: Blitz , Soraka, Lux, Pyke");
             Chat.PrintChat("SPrediction Port By Mask");
@@ -51,6 +57,20 @@ namespace Easy_Sup
                 Thresh.OnLoad();
                 Chat.PrintChat("011110001.Thresh Load");
             }
+            else if (ObjectManager.Player.CharacterName == "Alistar")
+            {
+                Alistar.OnLoad();
+            }
+        }
+
+        public static Bitmap LoadImg(string imgName)
+        {
+            var bitmap = Resources.ResourceManager.GetObject(imgName) as Bitmap;
+            if (bitmap == null)
+            {
+                Console.WriteLine(imgName + ".png not found.");
+            }
+            return bitmap;
         }
     }
 }

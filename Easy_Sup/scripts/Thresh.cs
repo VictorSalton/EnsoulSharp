@@ -178,6 +178,18 @@ namespace Easy_Sup.scripts
                     E.Cast(target.Position);
             }
 
+            try
+            {
+                if(W.IsReady() && Menubase.thresh_combat.W.Enabled && ObjectManager.Player.Distance(target.Position) < E.Range - 100)
+                {
+                    ThrowLantern();
+                }
+            }
+            catch
+            {
+                //error
+            }
+
             if (R.IsReady() && Menubase.thresh_combat.R.Enabled && ObjectManager.Player.CountEnemyHeroesInRange(R.Range) >=
                 Menubase.thresh_combat.Rcount.Value)
             {
@@ -203,5 +215,22 @@ namespace Easy_Sup.scripts
         {
         }
 
+        private static void ThrowLantern()
+        {
+            try
+            {
+                if (W.IsReady())
+                {
+                    var NearAllies = GameObjects.AllyHeroes.Where(x => !x.IsMe && !x.IsDead && x.DistanceToPlayer() <= W.Range + 100).FirstOrDefault();
+
+                    if (NearAllies == null) return;
+
+                    W.Cast(NearAllies.Position);
+                }
+            }
+            catch {
+                // error
+            }
+        }
     }
 }
