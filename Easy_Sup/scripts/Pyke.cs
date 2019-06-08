@@ -95,11 +95,10 @@ namespace Easy_Sup.scripts
             var t = al.FirstOrDefault(x => x.IsValidTarget(R.Range));
             if (t != null && !ObjectManager.Player.IsRecalling())
             {
-                if(Orbwalker.ActiveMode == OrbwalkerMode.Combo && Menubase.Pyke_Combat.Rkill.Enabled)
+                if (Orbwalker.ActiveMode != OrbwalkerMode.Combo && !t.IsDead && !t.IsZombie && t.IsVisible && t.IsHPBarRendered)
                 {
-                    return;
+                    R.SPredictionCast(t, HitChance.Medium);
                 }
-                R.SPredictionCast(t, HitChance.Medium);
             }
         }
 
@@ -224,7 +223,10 @@ namespace Easy_Sup.scripts
                     {
                         return;
                     }
-                    R.SPredictionCast(rt, HitChance.High);
+                    if(!rt.IsDead && !rt.IsZombie && rt.IsVisible && rt.IsHPBarRendered)
+                    {
+                        R.SPredictionCast(rt, HitChance.High);
+                    }
                 }
             }
         }
