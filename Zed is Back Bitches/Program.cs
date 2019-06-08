@@ -3,12 +3,15 @@ using EnsoulSharp.SDK;
 using EnsoulSharp.SDK.MenuUI;
 using EnsoulSharp.SDK.MenuUI.Values;
 using EnsoulSharp.SDK.Prediction;
+using EnsoulSharp.SDK.Utility;
 using SharpDX;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Zed_is_Back_Bitches.Properties;
 using static Zed_is_Back_Bitches.ZedMenu;
 using Color = System.Drawing.Color;
 
@@ -33,6 +36,7 @@ namespace Zed_is_Back_Bitches
         private static Vector3 rpos;
         private static int shadowdelay = 0;
         private static int delayw = 500;
+        private static Render.Sprite zedlogo;
 
         static void Main(string[] args)
         {
@@ -44,6 +48,12 @@ namespace Zed_is_Back_Bitches
         {
             try
             {
+                zedlogo = new Render.Sprite(LoadImg("zedlogo"), new Vector2(Drawing.Width / 2 - 500, Drawing.Height / 2 - 350));
+                zedlogo.Add(0);
+                zedlogo.OnDraw();
+
+                DelayAction.Add(7000, () => zedlogo.Remove());
+
                 _player = ObjectManager.Player;
                 if (ObjectManager.Player.CharacterName != ChampionName) return;
                 _q = new Spell(SpellSlot.Q, 900f);
@@ -66,8 +76,8 @@ namespace Zed_is_Back_Bitches
                             select hero;
 
 
-                
-                var _config = new Menu("zedisback", "011110001.Zed",true);
+
+                var _config = new Menu("zedisback", "011110001.Zed", true);
                 var combo = new Menu("combat", "[COMBO] Settings");
                 combo.Add(_combo.Ult);
                 combo.Add(_combo.Wgap);
@@ -103,7 +113,7 @@ namespace Zed_is_Back_Bitches
                 _config.Add(dodge);
                 _config.Attach();
 
-                
+
                 Game.OnUpdate += Game_OnUpdate;
                 Drawing.OnDraw += Drawing_OnDraw;
                 //AIBaseClient.OnProcessSpellCast += OnProcessSpell;
@@ -112,6 +122,16 @@ namespace Zed_is_Back_Bitches
             {
 
             }
+        }
+
+        public static Bitmap LoadImg(string imgName)
+        {
+            var bitmap = Resources.ResourceManager.GetObject(imgName) as Bitmap;
+            if (bitmap == null)
+            {
+                Console.WriteLine(imgName + ".png not found.");
+            }
+            return bitmap;
         }
 
         private static void Game_OnUpdate(EventArgs args)
@@ -124,7 +144,7 @@ namespace Zed_is_Back_Bitches
             {
                 //fail
             }
-            
+
             switch (Orbwalker.ActiveMode)
             {
                 case OrbwalkerMode.Combo:
@@ -139,7 +159,7 @@ namespace Zed_is_Back_Bitches
                                 TheLine(GetEnemy);
                                 break;
                         }
-                        
+
                     }
                     catch
                     {
@@ -503,6 +523,10 @@ namespace Zed_is_Back_Bitches
             {
                 foreach (var minion in minions)
                 {
+                    if(minion.DistanceToPlayer() < _player.GetRealAutoAttackRange())
+                    {
+                        return;
+                    }
                     if (minion.DistanceToPlayer() > _player.GetRealAutoAttackRange())
                     {
                         if (_q.GetDamage(minion) >= minion.Health)
@@ -554,7 +578,7 @@ namespace Zed_is_Back_Bitches
                         break;
                 }
                 Drawing.DrawText(Drawing.WorldToScreen(_player.Position)[0] - 60,
-                    Drawing.WorldToScreen(_player.Position)[1] +20 , Color.Red, modo);
+                    Drawing.WorldToScreen(_player.Position)[1] + 20, Color.Red, modo);
             }
             catch
             {
