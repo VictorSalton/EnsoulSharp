@@ -50,6 +50,8 @@ namespace Easy_Sup.scripts
             _geral.Add(usee);
             _geral.Add(wgap);
             _geral.Add(wrange);
+            _geral.Add(autoR);
+            _geral.Add(minhp);
 
             _menu.Add(_geral);
             _menu.Attach();
