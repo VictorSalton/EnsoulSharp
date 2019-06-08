@@ -95,6 +95,10 @@ namespace Easy_Sup.scripts
             var t = al.FirstOrDefault(x => x.IsValidTarget(R.Range));
             if (t != null && !ObjectManager.Player.IsRecalling())
             {
+                if(Orbwalker.ActiveMode == OrbwalkerMode.Combo && Menubase.Pyke_Combat.Rkill.Enabled)
+                {
+                    return;
+                }
                 R.SPredictionCast(t, HitChance.Medium);
             }
         }

@@ -1,8 +1,11 @@
 ﻿using Easy_Sup.scripts;
 using EnsoulSharp;
 using EnsoulSharp.SDK;
+using EnsoulSharp.SDK.Utility;
+using SharpDX;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,12 +14,15 @@ namespace Easy_Sup
 {
     class Program
     {
+        private static Render.Sprite logo;
+
         static void Main(string[] args)
         {
             GameEvent.OnGameLoad += On_LoadGame;
         }
         private static void On_LoadGame()
         {
+
             Chat.PrintChat("Supported Champions: Blitz , Soraka, Lux, Pyke");
             Chat.PrintChat("SPrediction Port By Mask");
             if (ObjectManager.Player.CharacterName == "Soraka")
