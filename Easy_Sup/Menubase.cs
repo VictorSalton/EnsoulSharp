@@ -99,9 +99,7 @@ namespace Easy_Sup
         {
             public static readonly MenuBool R = new MenuBool("r", "Use R - Finales Funkeln");
             public static readonly MenuBool Rkill = new MenuBool("rkill", "Only use R if enemy is Killable");
-            public static readonly MenuBool Raoe = new MenuBool("raoe", "Use R [AOE]", false);
-            public static readonly MenuSlider Rcount = new MenuSlider("rcount", "^ Min Enemies Hit Count", 3, 1, 5);
-            public static readonly MenuBool autoR = new MenuBool("autor", "If Q hits target auto R", false);
+            public static readonly MenuBool rprecision = new MenuBool("rprecision", "(recommended)Only use R if enemy is on Stun/Snare/Slow");
         }
         public class lux_ks
         {
@@ -115,7 +113,7 @@ namespace Easy_Sup
             public static readonly MenuSlider Qcount = new MenuSlider("qcount", "^ [Q] Minion Count", 2, 1, 2);
             public static readonly MenuBool clearE = new MenuBool("clearE", "Use E");
             public static readonly MenuSlider Ecount = new MenuSlider("Ecount", "^ [E] Minion Count", 3, 1, 6);
-            public static readonly MenuSlider mana = new MenuSlider("mana", "^ Only clear if mana >= X%", 60, 0, 100);
+            public static readonly MenuSlider mana = new MenuSlider("mana", "^Only clear if mana >= X%", 60, 0, 100);
         }
 
         public class lux_steal
@@ -130,8 +128,9 @@ namespace Easy_Sup
 
         public class lux_hit
         {
-            public static readonly MenuSlider Qhit = new MenuSlider("qhit", "Q Hitchance (1-Low ~ 4~VeryHigh)",3,1,4);
-            public static readonly MenuSlider Ehit = new MenuSlider("ehit", "E Hitchance (1-Low ~ 4~VeryHigh)", 3, 1, 4);
+            public static readonly MenuList qhit = new MenuList<string>("qhit", "Q - HitChance :", new[] { "High", "Medium", "Low" });
+            public static readonly MenuList ehit = new MenuList<string>("ehit", "E - HitChance :", new[] { "High", "Medium", "Low" });
+            public static readonly MenuList rhit = new MenuList<string>("rhit", "R - HitChance :", new[] { "High", "Medium", "Low" });
         }
 
         public class Pyke_Combat

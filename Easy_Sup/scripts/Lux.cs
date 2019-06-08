@@ -78,9 +78,7 @@ namespace Easy_Sup.scripts
             var rconfig = new Menu("r", "[R] - Finales Funkeln");
             rconfig.Add(Menubase.lux_r.R);
             rconfig.Add(Menubase.lux_r.Rkill);
-            rconfig.Add(Menubase.lux_r.Raoe);
-            rconfig.Add(Menubase.lux_r.Rcount);
-            rconfig.Add(Menubase.lux_r.autoR);
+            rconfig.Add(Menubase.lux_r.rprecision);
             var ks = new Menu("ks", "Killsteal Config");
             ks.Add(Menubase.lux_ks.ksQ);
             ks.Add(Menubase.lux_ks.ksE);
@@ -98,8 +96,9 @@ namespace Easy_Sup.scripts
             jgsteal.Add(Menubase.lux_steal.dragon);
             jgsteal.Add(Menubase.lux_steal.baron);
             var hitchance = new Menu("hitchance", "Hitchance Config");
-            hitchance.Add(Menubase.lux_hit.Qhit);
-            hitchance.Add(Menubase.lux_hit.Ehit);
+            hitchance.Add(Menubase.lux_hit.qhit);
+            hitchance.Add(Menubase.lux_hit.ehit);
+            hitchance.Add(Menubase.lux_hit.rhit);
 
             menu.Add(qconfig);
             menu.Add(wconfig);
@@ -177,24 +176,46 @@ namespace Easy_Sup.scripts
                 return;
             }
         }
-        private static void CastE(AIHeroClient target)
+
+        private static HitChance getQ()
         {
-            var ehit = HitChance.Medium;
-            switch (Menubase.lux_hit.Ehit.Value)
+            var hitchance = HitChance.High;
+            switch (Menubase.lux_hit.qhit.Index)
             {
+                case 0:
+                    hitchance = HitChance.High;
+                    break;
                 case 1:
-                    ehit = HitChance.Low;
+                    hitchance = HitChance.Medium;
                     break;
                 case 2:
-                    ehit = HitChance.Medium;
-                    break;
-                case 3:
-                    ehit = HitChance.High;
-                    break;
-                case 4:
-                    ehit = HitChance.VeryHigh;
+                    hitchance = HitChance.Low;
                     break;
             }
+            return hitchance;
+        }
+
+        private static HitChance getE()
+        {
+            var hitchance = HitChance.High;
+            switch (Menubase.lux_hit.ehit.Index)
+            {
+                case 0:
+                    hitchance = HitChance.High;
+                    break;
+                case 1:
+                    hitchance = HitChance.Medium;
+                    break;
+                case 2:
+                    hitchance = HitChance.Low;
+                    break;
+            }
+            return hitchance;
+        }
+
+        private static void CastE(AIHeroClient target)
+        {
+            var ehit = getE();
 
             if (EActivated)
             {
@@ -229,22 +250,7 @@ namespace Easy_Sup.scripts
 
         private static void CastQ(AIHeroClient target)
         {
-            var qhit = HitChance.Medium;
-            switch (Menubase.lux_hit.Qhit.Value)
-            {
-                case 1:
-                    qhit = HitChance.Low;
-                    break;
-                case 2:
-                    qhit = HitChance.Medium;
-                    break;
-                case 3:
-                    qhit = HitChance.High;
-                    break;
-                case 4:
-                    qhit = HitChance.VeryHigh;
-                    break;
-            }
+            var qhit = getQ();
             var input = Q.GetSPrediction(target);
             var col = Q.GetCollisions(target.Position.ToVector2());
             var unit = col.Units;
@@ -253,6 +259,24 @@ namespace Easy_Sup.scripts
             {
                 Q.SPredictionCast(target, qhit);
             }
+        }
+
+        private static HitChance getR()
+        {
+            var hitchance = HitChance.High;
+            switch (Menubase.lux_hit.rhit.Index)
+            {
+                case 0:
+                    hitchance = HitChance.High;
+                    break;
+                case 1:
+                    hitchance = HitChance.Medium;
+                    break;
+                case 2:
+                    hitchance = HitChance.Low;
+                    break;
+            }
+            return hitchance;
         }
 
         private static void DoCombo()
@@ -269,8 +293,8 @@ namespace Easy_Sup.scripts
             var useE = Menubase.lux_e.E.Enabled;
             var useR = Menubase.lux_r.R.Enabled;
             var onlyR = Menubase.lux_r.Rkill.Enabled;
-            var Raoe = Menubase.lux_r.Raoe.Enabled;
-            var Rvalue = Menubase.lux_r.Rcount.Value;
+
+            var Rhit = getR();
 
             if (useQ && !HasPassive(target) && Q.IsReady())
             {
@@ -286,25 +310,33 @@ namespace Easy_Sup.scripts
             {
                 CastE(target);
             }
-            if (useR && R.IsReady() && !onlyR)
+            if (useR && R.IsReady() && !onlyR && !Menubase.lux_r.rprecision.Enabled)
             {
-                R.SPredictionCast(target, HitChance.Medium);
+                R.SPredictionCast(target, Rhit);
             }
-
-            if (Raoe && R.IsReady())
+            if (useR && R.IsReady() && !onlyR && Menubase.lux_r.rprecision.Enabled)
             {
-                R.CastIfWillHit(target, Rvalue);
+                if(target.HasBuffOfType(BuffType.Slow) || target.HasBuffOfType(BuffType.Snare) || target.HasBuffOfType(BuffType.Stun) || target.HasBuffOfType(BuffType.Taunt))
+                {
+                    R.SPredictionCast(target, Rhit);
+                }
             }
-
             if (!onlyR)
             {
                 return;
             }
             var killable = ObjectManager.Player.GetSpellDamage(target, SpellSlot.R) > target.Health;
             var rpred = R.GetSPrediction(target);
-            if (killable && R.IsReady())
+            if (killable && R.IsReady() && !Menubase.lux_r.rprecision.Enabled && useR)
             {
-                R.SPredictionCast(target, HitChance.Medium);
+                R.SPredictionCast(target, Rhit);
+            }
+            if(killable && R.IsReady() && Menubase.lux_r.rprecision.Enabled && useR)
+            {
+                if (target.HasBuffOfType(BuffType.Slow) || target.HasBuffOfType(BuffType.Snare) || target.HasBuffOfType(BuffType.Stun) || target.HasBuffOfType(BuffType.Taunt))
+                {
+                    R.SPredictionCast(target, Rhit);
+                }
             }
         }
 
@@ -396,7 +428,7 @@ namespace Easy_Sup.scripts
             {
                 return;
             }
-
+            var Rhit = getR();
             foreach (var enemy in
                 ObjectManager.Get<AIHeroClient>()
                     .Where(x => x.IsValidTarget())
@@ -404,7 +436,7 @@ namespace Easy_Sup.scripts
                     .Where(x => !x.IsDead)
                     .Where(enemy => R.GetDamage(enemy) > enemy.Health))
             {
-                R.SPredictionCast(enemy, HitChance.Medium);
+                R.SPredictionCast(enemy, Rhit);
             }
         }
 

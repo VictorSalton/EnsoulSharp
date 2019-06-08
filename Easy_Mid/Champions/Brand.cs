@@ -21,6 +21,7 @@ namespace Easy_Mid.Champions
         #region
         //Combat
         public static readonly MenuBool comboQ = new MenuBool("comboQ", "Use Q on Combo");
+        public static readonly MenuBool Qstun = new MenuBool("qstun", "^ Only use Q if target has passive");
         public static readonly MenuBool comboW = new MenuBool("comboW", "Use W on Combo");
         public static readonly MenuBool comboE = new MenuBool("comboE", "Use E on Combo");
         public static readonly MenuBool comboR = new MenuBool("comboR", "Use R on Combo");
@@ -37,9 +38,12 @@ namespace Easy_Mid.Champions
         public static readonly MenuBool laneW = new MenuBool("laneW", "Use W on Clear Wave");
         public static readonly MenuSlider clearsmana = new MenuSlider("clearsmana", "Clear Wave Mana >= X%", 60, 0, 100);
 
+        //MISC
+        public static readonly MenuBool autoKS = new MenuBool("autoKS", "Auto Try KS With Q, W, E");
+
         //Hit Chance
-        public static readonly MenuList qhit = new MenuList<string>("qhit", "Q - HitChance :", new[] { "High", "Medium", "Low"});
-        public static readonly MenuList whit = new MenuList<string>("whit", "W - HitChance :", new[] { "High", "Medium", "Low" });
+        public static readonly MenuList qhit = new MenuList<string>("qhit", "Q - HitChance :", new[] { "High", "Medium", "Low" });
+        public static readonly MenuList whit = new MenuList<string>("whit", "W - HitChance :", new[] { "High", "Medium", "Low" }, ObjectManager.Player.CharacterName) { Index = 1 };
         #endregion
 
         public static void OnLoad()
@@ -49,8 +53,8 @@ namespace Easy_Mid.Champions
             e = new Spell(SpellSlot.E, 625);
             r = new Spell(SpellSlot.R, 750);
 
-            q.SetSkillshot(0.25f, 60, 1600, true, SkillshotType.Line);
-            w.SetSkillshot(1, 240, float.MaxValue, false, SkillshotType.Circle);
+            q.SetSkillshot(0.25f, 60, 1550, true, SkillshotType.Line);
+            w.SetSkillshot(1, 250, float.MaxValue, false, SkillshotType.Circle);
             e.SetTargetted(0.25f, float.MaxValue);
             r.SetTargetted(0.25f, 1000);
 
@@ -69,6 +73,7 @@ namespace Easy_Mid.Champions
 
             var combat = new Menu("combat", "[COMBO] Settings");
             combat.Add(comboQ);
+            combat.Add(Qstun);
             combat.Add(comboW);
             combat.Add(comboE);
             combat.Add(comboR);
@@ -85,6 +90,9 @@ namespace Easy_Mid.Champions
             clearwave.Add(laneW);
             clearwave.Add(clearsmana);
 
+            var misc = new Menu("misc", "[MISC] Settings");
+            misc.Add(autoKS);
+
             var pred = new Menu("spred", "[SPREDICTION] Settings");
             SPrediction.Prediction.Initialize(pred);
 
@@ -92,6 +100,7 @@ namespace Easy_Mid.Champions
             _menu.Add(combat);
             _menu.Add(harass);
             _menu.Add(clearwave);
+            _menu.Add(misc);
             _menu.Add(pred);
             _menu.Attach();
         }
@@ -100,6 +109,10 @@ namespace Easy_Mid.Champions
         {
             if (_player.IsDead)
                 return;
+
+
+            if (autoKS.Enabled)
+                KS();
 
             switch (Orbwalker.ActiveMode)
             {
@@ -185,7 +198,11 @@ namespace Easy_Mid.Champions
                 {
                     e.Cast(target,true);
                 }
-                if (q.IsReady() && HasPassive(target) && comboQ.Enabled)
+                if(Qstun.Enabled && q.IsReady() && HasPassive(target) && comboQ.Enabled)
+                {
+                    q.SPredictionCast(target, hitQ);
+                }
+                else if (q.IsReady() && comboQ.Enabled && !Qstun.Enabled)
                 {
                     q.SPredictionCast(target, hitQ);
                 }
@@ -218,7 +235,11 @@ namespace Easy_Mid.Champions
                 {
                     e.Cast(target, true);
                 }
-                if (q.IsReady() && HasPassive(target) && comboQ.Enabled)
+                if (Qstun.Enabled && q.IsReady() && HasPassive(target) && comboQ.Enabled)
+                {
+                    q.SPredictionCast(target, hitQ);
+                }
+                else if (q.IsReady() && comboQ.Enabled && !Qstun.Enabled)
                 {
                     q.SPredictionCast(target, hitQ);
                 }
@@ -257,7 +278,7 @@ namespace Easy_Mid.Champions
                 {
                     e.Cast(target, true);
                 }
-                if (q.IsReady() && HasPassive(target) && harassQ.Enabled)
+                if (q.IsReady() && harassQ.Enabled)
                 {
                     q.SPredictionCast(target, hitQ);
                 }
@@ -277,7 +298,7 @@ namespace Easy_Mid.Champions
                 {
                     e.Cast(target, true);
                 }
-                if (q.IsReady() && HasPassive(target) && harassQ.Enabled)
+                if (q.IsReady() && harassQ.Enabled)
                 {
                     q.SPredictionCast(target, hitQ);
                 }
@@ -303,6 +324,23 @@ namespace Easy_Mid.Champions
                         break;
                     }
                 }
+            }
+        }
+
+        private static void KS()
+        {
+            var wtarget = TargetSelector.GetTarget(w.Range);
+            if(wtarget != null && wtarget.IsValidTarget(w.Range) && wtarget.Health < w.GetDamage(wtarget))
+            {
+                w.SPredictionCast(wtarget, HitChance.Medium);
+            }
+            if (wtarget != null && wtarget.IsValidTarget(q.Range) && wtarget.Health < q.GetDamage(wtarget))
+            {
+                q.SPredictionCast(wtarget, HitChance.Medium);
+            }
+            if (wtarget != null && wtarget.IsValidTarget(e.Range) && wtarget.Health < e.GetDamage(wtarget))
+            {
+                e.Cast(wtarget, true);
             }
         }
     }
