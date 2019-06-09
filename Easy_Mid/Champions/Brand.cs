@@ -3,9 +3,11 @@ using EnsoulSharp.SDK;
 using EnsoulSharp.SDK.MenuUI;
 using EnsoulSharp.SDK.MenuUI.Values;
 using EnsoulSharp.SDK.Prediction;
+using EnsoulSharp.SDK.Utility;
 using SPrediction;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -40,10 +42,17 @@ namespace Easy_Mid.Champions
 
         //MISC
         public static readonly MenuBool autoKS = new MenuBool("autoKS", "Auto Try KS With Q, W, E");
+        public static readonly MenuBool autoGap = new MenuBool("autoGap", "Auto Try Cast W+Q on Gapcloser");
 
         //Hit Chance
         public static readonly MenuList qhit = new MenuList<string>("qhit", "Q - HitChance :", new[] { "High", "Medium", "Low" });
-        public static readonly MenuList whit = new MenuList<string>("whit", "W - HitChance :", new[] { "High", "Medium", "Low" }, ObjectManager.Player.CharacterName) { Index = 1 };
+        public static readonly MenuList whit = new MenuList<string>("whit", "W - HitChance :", new[] { "High", "Medium", "Low" });
+
+        //Draw
+        public static readonly MenuBool Qd = new MenuBool("qd", "Draw Q Range");
+        public static readonly MenuBool Wd = new MenuBool("wd", "Draw W Range");
+        public static readonly MenuBool Ed = new MenuBool("ed", "Draw E Range");
+        public static readonly MenuBool Rd = new MenuBool("rd", "Draw R Range and Range around the target");
         #endregion
 
         public static void OnLoad()
@@ -62,6 +71,7 @@ namespace Easy_Mid.Champions
 
             MenuCreate();
             Game.OnUpdate += Game_OnGameUpdate;
+            Drawing.OnDraw += OnDraw;
         }
 
         private static void MenuCreate()
@@ -92,6 +102,13 @@ namespace Easy_Mid.Champions
 
             var misc = new Menu("misc", "[MISC] Settings");
             misc.Add(autoKS);
+            misc.Add(autoGap);
+
+            var draw = new Menu("draw", "[DRAW] Settings");
+            draw.Add(Qd);
+            draw.Add(Wd);
+            draw.Add(Ed);
+            draw.Add(Rd);
 
             var pred = new Menu("spred", "[SPREDICTION] Settings");
             SPrediction.Prediction.Initialize(pred);
@@ -101,6 +118,7 @@ namespace Easy_Mid.Champions
             _menu.Add(harass);
             _menu.Add(clearwave);
             _menu.Add(misc);
+            _menu.Add(draw);
             _menu.Add(pred);
             _menu.Attach();
         }
@@ -125,6 +143,36 @@ namespace Easy_Mid.Champions
                 case OrbwalkerMode.LaneClear:
                     DoLaneClear();
                     break;
+            }
+        }
+
+        private static void OnGapcloser(AIHeroClient sender, Gapcloser.GapcloserArgs args)
+        {
+            if (ObjectManager.Player.IsDead || ObjectManager.Player.IsRecalling())
+            {
+                return;
+            }
+
+            if (MenuGUI.IsChatOpen || MenuGUI.IsShopOpen)
+            {
+                return;
+            }
+            if (!autoGap.Enabled)
+                return;
+            try
+            {
+                if (w.IsReady() && sender.IsValidTarget(w.Range))
+                {
+                    w.SPredictionCast(sender, HitChance.Medium);
+                }
+                if (q.IsReady() && sender.IsValidTarget(q.Range))
+                {
+                    q.SPredictionCast(sender, HitChance.Medium);
+                }
+            }
+            catch
+            {
+                //error
             }
         }
 
@@ -341,6 +389,47 @@ namespace Easy_Mid.Champions
             if (wtarget != null && wtarget.IsValidTarget(e.Range) && wtarget.Health < e.GetDamage(wtarget))
             {
                 e.Cast(wtarget, true);
+            }
+        }
+
+        private static void OnDraw(EventArgs args)
+        {
+            if (ObjectManager.Player.IsDead || ObjectManager.Player.IsRecalling())
+            {
+                return;
+            }
+
+            if (MenuGUI.IsChatOpen || MenuGUI.IsShopOpen)
+            {
+                return;
+            }
+            if (Qd.Enabled && q.IsReady())
+            {
+                Render.Circle.DrawCircle(GameObjects.Player.Position, q.Range, Color.FromArgb(48, 120, 252), 1);
+            }
+            if (Wd.Enabled && w.IsReady())
+            {
+                Render.Circle.DrawCircle(GameObjects.Player.Position, w.Range, Color.FromArgb(120, 120, 252), 1);
+            }
+            if (Ed.Enabled && e.IsReady())
+            {
+                Render.Circle.DrawCircle(GameObjects.Player.Position, e.Range, Color.FromArgb(120, 252, 252), 1);
+            }
+            try
+            {
+                if (Rd.Enabled && r.IsReady())
+                {
+                    Render.Circle.DrawCircle(GameObjects.Player.Position, r.Range, Color.FromArgb(255, 10, 10), 1);
+                    var t = TargetSelector.GetTarget(2000f);
+                    if(t != null)
+                    {
+                        Render.Circle.DrawCircle(t.Position, r.Range, Color.FromArgb(255, 10, 10), 1);
+                    }
+                }
+            }
+            catch
+            {
+                //error
             }
         }
     }
