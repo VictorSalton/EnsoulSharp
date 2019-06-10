@@ -27,6 +27,7 @@ namespace Easy_Mid.Champions
         #region
         //Q
         public static readonly MenuBool Qcombo = new MenuBool("qcombo", "Use [Q] on Combo");
+        public static readonly MenuBool Qks = new MenuBool("qks", "Use [Q] to KS");
         public static readonly MenuBool Qharass = new MenuBool("qharass", "Use [Q] on Harass");
         public static readonly MenuBool Qfarm = new MenuBool("qfarm", "Use [Q] to farm if Minion is out AA range");
         public static readonly MenuBool Qclear = new MenuBool("qclear", "Use [Q] to Clear Wave");
@@ -45,6 +46,7 @@ namespace Easy_Mid.Champions
         //R
         public static readonly MenuBool Rcombo = new MenuBool("rcombo", "Use [R] on Combo");
         public static readonly MenuBool Rkill = new MenuBool("rkill", "Use R to kill even if not reset(On Combo)");
+        public static readonly MenuBool Rks = new MenuBool("rks", "Use R to KS");
         public static readonly MenuSlider Rturret = new MenuSlider("rturret", "Don't use ult under Turret if HP% <  ",60,0,100);
         public static readonly MenuList rmode = new MenuList<string>("rmode", "Combo Mode :", new[] { "Q+R", "R+Q(Misaya Combo)"});
         #endregion
@@ -87,6 +89,7 @@ namespace Easy_Mid.Champions
             _q.Add(Qfarm);
             _q.Add(Qclear);
             _q.Add(qhit);
+            _q.Add(Qks);
 
             var _w = new Menu("_wmenu", "[W] - Pale Cascade Settings");
             _w.Add(Wcombo);
@@ -103,6 +106,7 @@ namespace Easy_Mid.Champions
             _r.Add(Rkill);
             _r.Add(rmode);
             _r.Add(Rturret);
+            _r.Add(Rks);
 
             var _pred = new Menu("_pred", "[SPREDICTION]");
             Prediction.Initialize(_pred);
@@ -140,6 +144,8 @@ namespace Easy_Mid.Champions
 
         private static void OnUpdate(EventArgs args)
         {
+            KS();
+
             switch (Orbwalker.ActiveMode)
             {
                 case OrbwalkerMode.Combo:
@@ -291,6 +297,29 @@ namespace Easy_Mid.Champions
             if(Qmin != null && Qfarm.Enabled && Q.IsReady())
             {
                 Q.Cast(useQ.Position, true);
+            }
+        }
+        private static void KS()
+        {
+            try
+            {
+                var t = TargetSelector.GetTarget(Q.Range);
+
+                if(t != null)
+                {
+                    if (Qks.Enabled && Q.IsReady() && t.Health < Q.GetDamage(t))
+                    {
+                        Q.SPredictionCast(t, HitChance.Medium);
+                    }
+                    if(Rks.Enabled && R.IsReady() && t.Health < R.GetDamage(t))
+                    {
+                        R.Cast(t, true);
+                    }
+                }
+            }
+            catch
+            {
+
             }
         }
     }
