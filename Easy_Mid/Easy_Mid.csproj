@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Champions\Brand.cs" />
+    <Compile Include="Champions\Diana.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SPrediction\AIHeroClientExtensions.cs" />

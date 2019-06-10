@@ -21,6 +21,10 @@ namespace Easy_Mid
             {
                 Brand.OnLoad();
             }
+            if (ObjectManager.Player.CharacterName == "Diana")
+            {
+                Diana.OnLoad();
+            }
         }
     }
 }
