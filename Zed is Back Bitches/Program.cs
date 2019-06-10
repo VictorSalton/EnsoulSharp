@@ -11,7 +11,6 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Zed_is_Back_Bitches.Properties;
 using static Zed_is_Back_Bitches.ZedMenu;
 using Color = System.Drawing.Color;
 
@@ -36,7 +35,7 @@ namespace Zed_is_Back_Bitches
         private static Vector3 rpos;
         private static int shadowdelay = 0;
         private static int delayw = 500;
-        private static Render.Sprite zedlogo;
+
 
         static void Main(string[] args)
         {
@@ -48,11 +47,7 @@ namespace Zed_is_Back_Bitches
         {
             try
             {
-                zedlogo = new Render.Sprite(LoadImg("zedlogo"), new Vector2(Drawing.Width / 2 - 500, Drawing.Height / 2 - 350));
-                zedlogo.Add(0);
-                zedlogo.OnDraw();
-
-                DelayAction.Add(7000, () => zedlogo.Remove());
+                Chat.PrintChat("This script is a Port of Zed is Back (Code of Jackisback)");
 
                 _player = ObjectManager.Player;
                 if (ObjectManager.Player.CharacterName != ChampionName) return;
@@ -81,6 +76,7 @@ namespace Zed_is_Back_Bitches
                 var combo = new Menu("combat", "[COMBO] Settings");
                 combo.Add(_combo.Ult);
                 combo.Add(_combo.Wgap);
+                combo.Add(_combo.W2);
                 combo.Add(_combo.Ig);
                 combo.Add(_combo.Cmode);
 
@@ -124,15 +120,6 @@ namespace Zed_is_Back_Bitches
             }
         }
 
-        public static Bitmap LoadImg(string imgName)
-        {
-            var bitmap = Resources.ResourceManager.GetObject(imgName) as Bitmap;
-            if (bitmap == null)
-            {
-                Console.WriteLine(imgName + ".png not found.");
-            }
-            return bitmap;
-        }
 
         private static void Game_OnUpdate(EventArgs args)
         {
@@ -232,7 +219,8 @@ namespace Zed_is_Back_Bitches
                 if (target.DistanceToPlayer() > 700 && target.MoveSpeed > _player.MoveSpeed || target.Distance(_player.Position) > 800 && _combo.Wgap.Enabled)
                 {
                     CastW(target);
-                    _w.Cast();
+                    if(_combo.W2.Enabled)
+                        _w.Cast();
                 }
                 _r.Cast(target);
             }
@@ -246,7 +234,8 @@ namespace Zed_is_Back_Bitches
                 if (target != null && ShadowStage == ShadowCastStage.Second && _combo.Wgap.Enabled &&
                     target.Distance(WShadow.Position) < target.Distance(_player.Position))
                 {
-                    _w.Cast();
+                    if (_combo.W2.Enabled)
+                        _w.Cast();
                 }
                 CastE();
                 CastQ(target);
@@ -272,7 +261,8 @@ namespace Zed_is_Back_Bitches
 
             if (target != null && ShadowStage == ShadowCastStage.First && UltStage == UltCastStage.Second)
             {
-                _w.Cast(linepos);
+                if (_combo.W2.Enabled)
+                    _w.Cast(linepos);
                 CastE();
                 CastQ(target);
                 if (target != null && _combo.Ig.Enabled && _igniteSlot != SpellSlot.Unknown &&
@@ -284,7 +274,8 @@ namespace Zed_is_Back_Bitches
 
             if (target != null && WShadow != null && UltStage == UltCastStage.Second && target.Distance(_player.Position) > 250 && (target.Distance(WShadow.Position) < target.Distance(_player.Position)))
             {
-                _w.Cast();
+                if (_combo.W2.Enabled)
+                    _w.Cast();
             }
 
         }

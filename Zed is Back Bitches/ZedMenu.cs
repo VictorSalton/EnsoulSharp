@@ -14,6 +14,7 @@ namespace Zed_is_Back_Bitches
         public class _combo
         {
             public static readonly MenuBool Wgap = new MenuBool("wgab", "Use W on Combo (also gap close)");
+            public static readonly MenuBool W2 = new MenuBool("w2", "Use W2 on Combo");
             public static readonly MenuBool Ig = new MenuBool("UseIgnitecombo", "Use Ignite(On The Line Combo)");
             public static readonly MenuBool Ult = new MenuBool("UseUlt", "Use Ultimate");
             public static readonly MenuList Cmode = new MenuList<string>("cmode", "Combo Mode :", new[] { "Common", "The Line(Need Use R Enable)" }, ObjectManager.Player.CharacterName);

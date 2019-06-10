@@ -1,6 +1,7 @@
 ﻿using EnsoulSharp;
 using EnsoulSharp.SDK;
 using EnsoulSharp.SDK.MenuUI;
+using EnsoulSharp.SDK.MenuUI.Values;
 using EnsoulSharp.SDK.Prediction;
 using System;
 using System.Collections.Generic;
@@ -31,6 +32,7 @@ namespace Rengar
             combo.Add(RengarMenu.combat.W);
             combo.Add(RengarMenu.combat.E);
             combo.Add(RengarMenu.combat.focus);
+            combo.Add(new MenuList<string>("target", "Target Focus", new[] { "Most AD", "Most AP", "Squishy" , "Lower HP" }, ObjectManager.Player.CharacterName) { Index = 2 });
 
             var jg = new Menu("jg", "Jungle Clear/Lane Clear Config");
             jg.Add(RengarMenu.jg.Q);

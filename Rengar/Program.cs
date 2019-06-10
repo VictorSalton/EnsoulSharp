@@ -1,7 +1,6 @@
 ﻿using EnsoulSharp;
 using EnsoulSharp.SDK;
 using EnsoulSharp.SDK.Utility;
-using Rengar.Properties;
 using SharpDX;
 using System;
 using System.Collections.Generic;
@@ -14,7 +13,6 @@ namespace Rengar
 {
     class Program
     {
-        private static Render.Sprite Intro;
 
         private static void Main(string[] args)
         {
@@ -28,24 +26,9 @@ namespace Rengar
                 return;
             }
             Chat.PrintChat("Simple Rengar Script Load");
-            Chat.PrintChat("011110001");
+            Chat.PrintChat("This script is a Port of ElRengar (Code of jQuery)");
             Rengar_.OnLoad();
 
-            Intro = new Render.Sprite(LoadImg("logo"), new Vector2(Drawing.Width / 2 - 500, Drawing.Height / 2 - 350));
-            Intro.Add(0);
-            Intro.OnDraw();
-
-            DelayAction.Add(7000, () => Intro.Remove());
-
-        }
-        public static Bitmap LoadImg(string imgName)
-        {
-            var bitmap = Resources.ResourceManager.GetObject(imgName) as Bitmap;
-            if (bitmap == null)
-            {
-                Console.WriteLine(imgName + ".png not found.");
-            }
-            return bitmap;
         }
     }
 }
