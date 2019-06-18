@@ -273,13 +273,13 @@ namespace Easy_Mid.Champions
                     }
                 }
             }
-            else if(target.IsValidTarget(w.Range))
+            if(target != null && target.IsValidTarget(w.Range))
             {
                 if (w.IsReady() && comboW.Enabled)
                 {
                     w.SPredictionCast(target, hitW);
                 }
-                if (e.IsReady() && harassE.Enabled && target.IsValidTarget(e.Range))
+                if (e.IsReady() && comboE.Enabled && target.IsValidTarget(e.Range))
                 {
                     e.Cast(target, true);
                 }
@@ -336,7 +336,7 @@ namespace Easy_Mid.Champions
                     w.SPredictionCast(target, hitW);
                 }
             }
-            else if (target.IsValidTarget(w.Range))
+            if (target.IsValidTarget(w.Range))
             {
                 if (w.IsReady() && harassW.Enabled)
                 {
