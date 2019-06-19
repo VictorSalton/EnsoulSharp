@@ -35,6 +35,7 @@ namespace Easy_Sup.scripts
             var IsMenu = new Menu("Easy_Sup.Thresh", "Easy_Sup.Thresh", true);
             var combo = new Menu("Combo", "Combo Config");
             combo.Add(Menubase.thresh_combat.Q);
+            combo.Add(Menubase.thresh_combat.Q2);
             combo.Add(Menubase.thresh_combat.qhit);
             combo.Add(Menubase.thresh_combat.E);
             combo.Add(Menubase.thresh_combat.emodo);
@@ -138,6 +139,9 @@ namespace Easy_Sup.scripts
             }
             var target = TargetSelector.GetTarget(Q.Range);
             if (target == null)
+                return;
+
+            if (target.HasBuff("threshQ") && Menubase.thresh_combat.Q2.Enabled)
                 return;
 
             Q.SPredictionCast(target, qhit);
