@@ -141,7 +141,7 @@ namespace Easy_Sup.scripts
             if (target == null)
                 return;
 
-            if (target.HasBuff("threshQ") && Menubase.thresh_combat.Q2.Enabled)
+            if (target.HasBuff("threshQ") && !Menubase.thresh_combat.Q2.Enabled)
                 return;
 
             Q.SPredictionCast(target, qhit);
