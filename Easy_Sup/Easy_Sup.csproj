@@ -67,9 +67,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Resources\KurisuLib.cs" />
     <Compile Include="scripts\Alistar.cs" />
     <Compile Include="scripts\Blitz.cs" />
     <Compile Include="scripts\Lux.cs" />
+    <Compile Include="scripts\Morgana.cs" />
     <Compile Include="scripts\Pyke.cs" />
     <Compile Include="scripts\Soraka.cs" />
     <Compile Include="scripts\Thresh.cs" />

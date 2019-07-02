@@ -23,14 +23,26 @@ namespace Easy_Sup
         }
         private static void On_LoadGame()
         {
-            logo = new Render.Sprite(LoadImg("lgo"), new Vector2(Drawing.Width / 2 - 250, Drawing.Height / 2 - 250));
-            logo.Add(0);
-            logo.OnDraw();
 
-            DelayAction.Add(7000, () => logo.Remove());
-
-            Chat.PrintChat("Supported Champions: Blitz , Soraka, Lux, Pyke");
+            Chat.PrintChat("Supported Champions: Alistar, Blitz, Lux, Morgana, Pyke, Soraka, Thresh");
             Chat.PrintChat("SPrediction Port By Mask");
+            Chat.PrintChat("─────────▄▄▄▄▄─────▄▄▄▄▄────────");
+            Chat.PrintChat("─────▄▀▀▀░░░░░▀▀▄▀▀░░░▄░▀▄──────");
+            Chat.PrintChat("───▄▀░░▀▄▄▀▀▀▀▄▄░▀▄▄▀▀▀▀▀▀█▄────");
+            Chat.PrintChat("──▄▀░░░▀░░░░▄▄▄▄▄██░░░▄▄▄▄▄▄▀▄──");
+            Chat.PrintChat("─▄▀░▄░░░▄▄▀▀───────▀█▀──────▀▀█▄");
+            Chat.PrintChat("▀░░░█░░█───────███──█─────███──█");
+            Chat.PrintChat("░░░░░░░▀▄▄─────▀▀▀──█─────▀▀▀─▄█");
+            Chat.PrintChat("█░░░░░░░░▀▀▀█▄▄▄▄▄█▀░▀▀▀▀▀▀▀▀█▀─");
+            Chat.PrintChat("▀░░░░░░░░░░░▄▄▄▄▀▀░░░▀▄▄▄▄▄▀█───");
+            Chat.PrintChat("░░░░░░░░░░░░░░░░░░░░░░░▀░░░░▀▄──");
+            Chat.PrintChat("░░░░░░░▄▄▄▄▄▄▄▄▄░░░░░░░░░░░░░█──");
+            Chat.PrintChat("░░░░░░█░▄▄▄▄▄▄▄░▀▀▀▀▀▀▀▀▀▀▀▀▀█──");
+            Chat.PrintChat("░░░█░░▀▄▄▄▄▄▄▄░▀▀▀▀▀▀▀▀▀▀▀▀▀█───");
+            Chat.PrintChat("░░░░▀▄░░░░░░░░▀▀▀▀▀▀▀▀▀▀██▀▀────");
+            Chat.PrintChat("▄▄▄▄▄░░░░░░░░░░░░░░░░▄▀▀────────");
+            Chat.PrintChat("▓▓▓▓▓▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▄─────────");
+            Chat.PrintChat("▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▀");
             if (ObjectManager.Player.CharacterName == "Soraka")
             {
                 Soraka.Load();
@@ -61,16 +73,13 @@ namespace Easy_Sup
             {
                 Alistar.OnLoad();
             }
+            else if(ObjectManager.Player.CharacterName == "Morgana")
+            {
+                Morgana.OnLoad();
+                Chat.PrintChat("Morgana Script Load");
+                Chat.PrintChat("This script is a Port of Kurisu Morgana (Code of Kurisu)");
+            }
         }
 
-        public static Bitmap LoadImg(string imgName)
-        {
-            var bitmap = Resources.ResourceManager.GetObject(imgName) as Bitmap;
-            if (bitmap == null)
-            {
-                Console.WriteLine(imgName + ".png not found.");
-            }
-            return bitmap;
-        }
     }
 }
