@@ -143,6 +143,9 @@ namespace Easy_Sup.scripts
                     case OrbwalkerMode.Harass:
                         Harass(Qharass.Enabled,Wharass.Enabled);
                         break;
+                    case OrbwalkerMode.LaneClear:
+                        LaneClear();
+                        break;
                 }
             }
             catch { }
@@ -163,6 +166,16 @@ namespace Easy_Sup.scripts
             return unit.HasBuffOfType(BuffType.Charm) || unit.HasBuffOfType(BuffType.Knockup) ||
                    unit.HasBuffOfType(BuffType.Snare) ||
                    unit.HasBuffOfType(BuffType.Taunt) || unit.HasBuffOfType(BuffType.Suppression);
+        }
+
+        private static void LaneClear()
+        {
+            List<AIBaseClient> minions = MinionManager.GetMinions(Me.Position, _w.Range);
+            var wCastLocation = _w.GetCircularFarmLocation(minions, _w.Width);
+            if (_w.IsReady() && wCastLocation.MinionsHit > wmin.Value && Wpush.Enabled)
+            {
+                _w.Cast(wCastLocation.Position);
+            }
         }
 
         private static void Drawing_OnDraw(EventArgs args)

@@ -1,0 +1,15 @@
+C:\Users\T-Gamer\source\repos\Easy_Sup\Easy_Sup\bin\Release\Easy_Sup.exe.config
+C:\Users\T-Gamer\source\repos\Easy_Sup\Easy_Sup\bin\Release\Easy_Sup.exe
+C:\Users\T-Gamer\source\repos\Easy_Sup\Easy_Sup\bin\Release\Easy_Sup.pdb
+C:\Users\T-Gamer\source\repos\Easy_Sup\Easy_Sup\bin\Release\EnsoulSharp.SDK.dll
+C:\Users\T-Gamer\source\repos\Easy_Sup\Easy_Sup\bin\Release\EnsoulSharp.Wrapper.dll
+C:\Users\T-Gamer\source\repos\Easy_Sup\Easy_Sup\bin\Release\SharpDX.Direct3D9.dll
+C:\Users\T-Gamer\source\repos\Easy_Sup\Easy_Sup\bin\Release\SharpDX.dll
+C:\Users\T-Gamer\source\repos\Easy_Sup\Easy_Sup\bin\Release\Newtonsoft.Json.dll
+C:\Users\T-Gamer\source\repos\Easy_Sup\Easy_Sup\obj\Debug\Easy_Sup.csprojAssemblyReference.cache
+C:\Users\T-Gamer\source\repos\Easy_Sup\Easy_Sup\obj\Debug\Easy_Sup.Properties.Resources.resources
+C:\Users\T-Gamer\source\repos\Easy_Sup\Easy_Sup\obj\Debug\Easy_Sup.csproj.GenerateResource.cache
+C:\Users\T-Gamer\source\repos\Easy_Sup\Easy_Sup\obj\Debug\Easy_Sup.csproj.CoreCompileInputs.cache
+C:\Users\T-Gamer\source\repos\Easy_Sup\Easy_Sup\obj\Debug\Easy_Sup.csproj.CopyComplete
+C:\Users\T-Gamer\source\repos\Easy_Sup\Easy_Sup\obj\Debug\Easy_Sup.exe
+C:\Users\T-Gamer\source\repos\Easy_Sup\Easy_Sup\obj\Debug\Easy_Sup.pdb
