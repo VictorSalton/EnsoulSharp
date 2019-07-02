@@ -166,6 +166,7 @@ namespace Easy_Sup
 
         public class thresh_combat
         {
+            public static readonly MenuBool Qpred = new MenuBool("qpred", "Draw Q Prediction");
             public static readonly MenuBool Q = new MenuBool("qt", "Use Q");
             public static readonly MenuBool Q2 = new MenuBool("q2", "Use Q2(gap close)");
             public static readonly MenuSlider qhit = new MenuSlider("qthit", "^ Q - Hitchance (1-Low ~ 4-Very High", 3, 1, 4);

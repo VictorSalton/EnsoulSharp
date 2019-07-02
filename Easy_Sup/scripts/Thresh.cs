@@ -2,6 +2,7 @@
 using EnsoulSharp.SDK;
 using EnsoulSharp.SDK.MenuUI;
 using EnsoulSharp.SDK.Prediction;
+using EnsoulSharp.SDK.Utility;
 using SharpDX;
 using SPrediction;
 using System;
@@ -9,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Color = System.Drawing.Color;
 
 namespace Easy_Sup.scripts
 {
@@ -19,6 +21,7 @@ namespace Easy_Sup.scripts
         private static Menu IsMenu;
         public static Vector2 oWp;
         public static Vector2 nWp;
+        private static EnsoulSharp.SDK.Geometry.Rectangle QRectangle { get; set; }
         private static readonly Dictionary<int, List<Vector2>> _waypoints = new Dictionary<int, List<Vector2>>();
 
         public static void OnLoad()
@@ -29,11 +32,13 @@ namespace Easy_Sup.scripts
             E = new Spell(SpellSlot.E, 400);
             R = new Spell(SpellSlot.R, 450);
 
+     
             Q.SetSkillshot(0.500f, 70, 1900f, true, SkillshotType.Line);
             Q2.SetSkillshot(0.500f, 70, 1900f, true, SkillshotType.Line);
-
+            QRectangle = new EnsoulSharp.SDK.Geometry.Rectangle(ObjectManager.Player.Position, Vector3.Zero, Q.Width);
             var IsMenu = new Menu("Easy_Sup.Thresh", "Easy_Sup.Thresh", true);
             var combo = new Menu("Combo", "Combo Config");
+            combo.Add(Menubase.thresh_combat.Qpred);
             combo.Add(Menubase.thresh_combat.Q);
             combo.Add(Menubase.thresh_combat.Q2);
             combo.Add(Menubase.thresh_combat.qhit);
@@ -62,6 +67,7 @@ namespace Easy_Sup.scripts
             Game.OnUpdate += OnGameUpdate;
             Interrupter.OnInterrupterSpell += OnPossibleToInterrupt;
             Gapcloser.OnGapcloser += OnEnemyGapcloser;
+            Drawing.OnDraw += OnDraw;
         }
 
         private static void OnPossibleToInterrupt(AIHeroClient sender, Interrupter.InterruptSpellArgs args)
@@ -204,6 +210,20 @@ namespace Easy_Sup.scripts
 
         private static void OnGameUpdate(EventArgs args)
         {
+            try
+            {
+                var Target = TargetSelector.GetTarget(Q.Range);
+                if (Target.IsValidTarget(Q.Range))
+                {
+                    QRectangle.Start = ObjectManager.Player.Position.ToVector2();
+                    QRectangle.End = Q.GetSPrediction(Target).CastPosition;
+                    QRectangle.UpdatePolygon();
+                }
+            }
+            catch
+            {
+
+            }
             switch (Orbwalker.ActiveMode)
             {
                 case OrbwalkerMode.Combo:
@@ -215,8 +235,24 @@ namespace Easy_Sup.scripts
             }
         }
 
-        private static void DrawLine(float x, float y, float x2, float y2, float thickness, System.Drawing.Color color)
+        private static void OnDraw(EventArgs args)
         {
+            if (ObjectManager.Player.IsDead || ObjectManager.Player.IsRecalling() || MenuGUI.IsChatOpen || ObjectManager.Player.IsWindingUp)
+            {
+                return;
+            }
+            if (!Menubase.thresh_combat.Qpred.Enabled)
+                return;
+            var t = TargetSelector.GetTarget(Q.Range);
+            if (Q.IsReady() && t.IsValidTarget(Q.Range))
+            {
+                if(Q.GetSPrediction(t).HitChance != HitChance.OutOfRange && Q.GetSPrediction(t).HitChance != HitChance.Collision)
+                QRectangle.Draw(Color.LightGreen, 3);
+                else
+                {
+                    QRectangle.Draw(Color.Red, 3);
+                }
+            }
         }
 
         private static void ThrowLantern()

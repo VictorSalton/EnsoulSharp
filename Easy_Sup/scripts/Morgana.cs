@@ -5,12 +5,14 @@ using EnsoulSharp.SDK.MenuUI;
 using EnsoulSharp.SDK.MenuUI.Values;
 using EnsoulSharp.SDK.Prediction;
 using EnsoulSharp.SDK.Utility;
+using SharpDX;
 using SPrediction;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Color = System.Drawing.Color;
 
 namespace Easy_Sup.scripts
 {
@@ -18,6 +20,7 @@ namespace Easy_Sup.scripts
     {
         #region
         //q
+        public static readonly MenuBool Qpred = new MenuBool("qpred", "Draw Q Prediction");
         public static readonly MenuList qhit = new MenuList<string>("qhit", "Q - HitChance :", new[] { "High", "Medium", "Low" });
         public static readonly MenuBool Qcombo = new MenuBool("qcombo", "Use Q on Combo");
         public static readonly MenuBool Qharass = new MenuBool("qharass", "Use Q on Harass");
@@ -29,6 +32,7 @@ namespace Easy_Sup.scripts
 
         //w
         public static readonly MenuBool Wcombo = new MenuBool("wcombo", "Use W on Combo");
+        public static readonly MenuList wmode = new MenuList<string>("whit", "W - Mode :", new[] { "Allways", "Target Immobile"});
         public static readonly MenuSlider Wticks = new MenuSlider("wtick", "W Combo Damage Ticks", 6, 3, 10);
         public static readonly MenuBool Wharass = new MenuBool("wharass", "Use W on Harass");
         public static readonly MenuSlider wmana = new MenuSlider("wmana", "^ Mana >= X%", 60, 0, 100);
@@ -54,6 +58,7 @@ namespace Easy_Sup.scripts
         private static Menu _menu;
         private static Spell _q, _w, _e, _r;
         private static readonly AIHeroClient Me = ObjectManager.Player;
+        private static EnsoulSharp.SDK.Geometry.Rectangle QRectangle { get; set; }
 
         public static void OnLoad()
         {
@@ -69,6 +74,7 @@ namespace Easy_Sup.scripts
             _r = new Spell(SpellSlot.R, 600f);
 
 
+            QRectangle = new EnsoulSharp.SDK.Geometry.Rectangle(ObjectManager.Player.Position, Vector3.Zero, _q.Width);
 
             CreateMenu();
             Drawing.OnDraw += Drawing_OnDraw;
@@ -94,9 +100,11 @@ namespace Easy_Sup.scripts
             _qmenu.Add(Qant);
             _qmenu.Add(Qdash);
             _qmenu.Add(Qim);
+            _qmenu.Add(Qpred);
 
             var _wmenu = new Menu("wmenu", "[W] Settings");
             _wmenu.Add(Wcombo);
+            _wmenu.Add(wmode);
             _wmenu.Add(Wharass);
             _wmenu.Add(wmana);
             _wmenu.Add(Wpush);
@@ -109,7 +117,7 @@ namespace Easy_Sup.scripts
             {
                 foreach (var lib in KurisuLib.CCList.Where(x => x.HeroName == ene.CharacterName))
                 {
-                    _emenu.Add(new Menu(lib.SDataName, lib.SpellMenuName + " from " + ene.CharacterName));
+                    _emenu.Add(new MenuBool(lib.SDataName, lib.SpellMenuName + " from " + ene.CharacterName));
                 }
             }
             var _rmenu = new Menu("rmenu", "[R] Settings");
@@ -133,6 +141,14 @@ namespace Easy_Sup.scripts
         {
             try
             {
+                var Target = TargetSelector.GetTarget(_q.Range);
+                if (Target.IsValidTarget(_q.Range))
+                {
+                    QRectangle.Start = ObjectManager.Player.Position.ToVector2();
+                    QRectangle.End = _q.GetSPrediction(Target).CastPosition;
+                    QRectangle.UpdatePolygon();
+                }
+
                 AutoCast(Qdash.Enabled,Qim.Enabled);
 
                 switch (Orbwalker.ActiveMode)
@@ -185,12 +201,28 @@ namespace Easy_Sup.scripts
                 Render.Circle.DrawCircle(Me.Position, _q.Range,
                     System.Drawing.Color.FromArgb(155, System.Drawing.Color.DeepPink), 4);
             }
+            if (ObjectManager.Player.IsDead || ObjectManager.Player.IsRecalling() || MenuGUI.IsChatOpen || ObjectManager.Player.IsWindingUp)
+            {
+                return;
+            }
+            if (!Qpred.Enabled)
+                return;
+            var t = TargetSelector.GetTarget(_q.Range);
+            if (_q.IsReady() && t.IsValidTarget(_q.Range))
+            {
+                if (_q.GetSPrediction(t).HitChance != HitChance.OutOfRange && _q.GetSPrediction(t).HitChance != HitChance.Collision && _q.GetSPrediction(t).HitChance >= getQ())
+                    QRectangle.Draw(Color.LightGreen, 3);
+                else
+                {
+                    QRectangle.Draw(Color.Red, 3);
+                }
+            }
         }
 
         private static HitChance getQ()
         {
             var hitchance = HitChance.High;
-            switch (Menubase.lux_hit.qhit.Index)
+            switch (qhit.Index)
             {
                 case 0:
                     hitchance = HitChance.High;
@@ -200,6 +232,21 @@ namespace Easy_Sup.scripts
                     break;
                 case 2:
                     hitchance = HitChance.Low;
+                    break;
+            }
+            return hitchance;
+        }
+
+        private static HitChance getW()
+        {
+            var hitchance = HitChance.Medium;
+            switch (wmode.Index)
+            {
+                case 0:
+                    hitchance = HitChance.Medium;
+                    break;
+                case 1:
+                    hitchance = HitChance.Immobile;
                     break;
             }
             return hitchance;
@@ -221,7 +268,7 @@ namespace Easy_Sup.scripts
                 var wtarget = TargetSelector.GetTarget(_w.Range + 10);
                 if (wtarget.IsValidTarget())
                 {
-                    _w.SPredictionCast(wtarget, HitChance.Medium);
+                    _w.SPredictionCast(wtarget, getW());
                 }
             }
             if (user && _r.IsReady())
@@ -305,19 +352,21 @@ namespace Easy_Sup.scripts
                 {
                     if (lib.Type == Skilltype.Unit && args.Target.NetworkId != ally.NetworkId)
                         return;
-
                     try
                     {
                         if (_menu["emenu"].GetValue<MenuBool>(lib.SDataName).Enabled)
                         {
-                            DelayAction.Add(lib.Slot != SpellSlot.R ? 100 : 0, () => _e.CastOnUnit(ally));
+                            Console.WriteLine(_menu["emenu"].GetValue<MenuBool>(lib.SDataName).Enabled.ToString());
+                            Console.WriteLine(lib.SDataName);
+                            Console.WriteLine(ally.CharacterName);
+                            _e.CastOnUnit(ally);
+                            _e.Cast(ally);
+                            _e.Cast(Me);
                         }
                     }
                     catch { }
                 }
             }
         }
-
-
     }
 }
