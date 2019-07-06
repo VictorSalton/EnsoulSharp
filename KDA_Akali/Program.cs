@@ -19,19 +19,28 @@ namespace KDA_Akali
 
 
         #region
+        private static readonly MenuBool skin = new MenuBool("skin", "Active Skin (Need Reload)", true);
+
+
         private static readonly MenuBool Qcombo = new MenuBool("qcombo", "[Q] on Combo");
         private static readonly MenuBool Ecombo = new MenuBool("Ecombo", "[E] on Combo");
         private static readonly MenuBool Eblock = new MenuBool("Eblock", "^ Block E2 if enemy is under turret");
+        private static readonly MenuList combomode = new MenuList<string>("combomode", "Combo Mode:", new[] { "Q->E", "E->Q"});
         private static readonly MenuBool R1 = new MenuBool("r1", "Use R1");
         private static readonly MenuBool Blockult = new MenuBool("blockult", "^ Only if Combo Damage > HP target",false);
         private static readonly MenuSlider Rstart = new MenuSlider("Rstart", "Use R1 to start if Hit X enemies (use 0 to disable)", 3, 0, 5);
-        private static readonly MenuBool R2kill = new MenuBool("R2kill", "Use R2 if enemy is killable");
+        private static readonly MenuBool R2kill = new MenuBool("R2kill", "Use R2 if enemy is killable (Thanks for memsenpai)");
+        private static readonly MenuBool R2 = new MenuBool("R2", "Use R2 if Time is running out");
 
         private static readonly MenuBool Qharass = new MenuBool("qharass", "[Q] on Harass");
         private static readonly MenuBool Eharass = new MenuBool("Eharass", "[E] on Harass");
 
         private static readonly MenuBool Qclear = new MenuBool("qclear", "[Q] on ClearWave");
         private static readonly MenuBool Qfarm = new MenuBool("qfarm", "[Q] to Farm(Only if Minion is out AA range)");
+
+        private static readonly MenuBool Qks = new MenuBool("qks", "[Q] To KS");
+        private static readonly MenuBool R1ks = new MenuBool("r1ks", "[R1] To KS");
+        private static readonly MenuBool R2ks = new MenuBool("r2ks", "[R2] To KS");
 
         #endregion
 
@@ -49,8 +58,8 @@ namespace KDA_Akali
             _e.SetSkillshot(0.25f, 70f, 1200f, true, SkillshotType.Line);
             _r.SetSkillshot(0.25f, 0f, float.MaxValue, false, SkillshotType.Line);
 
-
-            ObjectManager.Player.SetSkin(9);
+            if(skin.Enabled)
+                ObjectManager.Player.SetSkin(9);
             CreateMenu();
             Game.OnUpdate += OnTick;
         }
@@ -61,27 +70,38 @@ namespace KDA_Akali
             var _combat = new Menu("kdacombat", "[Combo] Settings");
             var _harass = new Menu("kdaharass", "[Harass] Settings");
             var _farm = new Menu("kdafarm", "[Farm] Settings");
+            var _ks = new Menu("kdaks", "[KS] Settings");
             _combat.Add(Qcombo);
             _combat.Add(Ecombo);
             _combat.Add(Eblock);
+            _combat.Add(combomode);
             _combat.Add(R1);
             _combat.Add(Blockult);
             //_combat.Add(Rstart);
             _combat.Add(R2kill);
+            _combat.Add(R2);
 
             _harass.Add(Qharass);
             _harass.Add(Eharass);
 
             _farm.Add(Qclear);
             _farm.Add(Qfarm);
+
+            _ks.Add(Qks);
+            _ks.Add(R1ks);
+            _ks.Add(R2ks);
+
             _menu.Add(_combat);
             _menu.Add(_harass);
             _menu.Add(_farm);
+            _menu.Add(_ks);
+            _menu.Add(skin);
             _menu.Attach();
         }
 
         public static void OnTick(EventArgs args)
         {
+            DoKs();
             switch (Orbwalker.ActiveMode)
             {
                 case (OrbwalkerMode.Combo):
@@ -106,40 +126,80 @@ namespace KDA_Akali
             var etarget = TargetSelector.GetTarget(2000f);
             if (t == null)
                 return;
-            if (etarget.HasBuff("AkaliEMis") && Ecombo.Enabled)
+            switch (combomode.Index)
             {
-                _e.Cast();
-            }
-
-            if (_q.IsReady() && t.IsValidTarget(_q.Range) && Qcombo.Enabled)
-            {
-                _q.Cast(t);
-            }
-            if (_e.IsReady() && t.IsValidTarget(_e.Range) && Ecombo.Enabled && !t.HasBuff("AkaliEMis"))
-            {
-                _e.Cast(t);
-            }
-
-            if(_r.IsReady() && t.IsValidTarget(_r.Range) && !ObjectManager.Player.HasBuff("AkaliR") && R1.Enabled)
-            {
-                if (Blockult.Enabled)
-                {
-                    if(ComboFull(t) >= t.Health)
+                case 0:
+                    if (etarget.HasBuff("AkaliEMis") && Ecombo.Enabled)
                     {
-                        _r.Cast(t);
+                        _e.Cast();
                     }
-                }
-                else
-                {
-                    _r.Cast(t);
-                }
-            }
-            if (_r.IsReady() && t.IsValidTarget(_r.Range) && ObjectManager.Player.HasBuff("AkaliR"))
-            {
-                if(R2kill.Enabled && _r.GetDamage(t,DamageStage.SecondCast) >= t.Health)
-                {
-                    _r.Cast(t);
-                }
+
+                    if (_q.IsReady() && t.IsValidTarget(_q.Range) && Qcombo.Enabled)
+                    {
+                        _q.Cast(t);
+                    }
+                    if (_e.IsReady() && t.IsValidTarget(_e.Range) && Ecombo.Enabled && !t.HasBuff("AkaliEMis"))
+                    {
+                        _e.Cast(t);
+                    }
+
+                    if (_r.IsReady() && t.IsValidTarget(_r.Range) && !ObjectManager.Player.HasBuff("AkaliR") && R1.Enabled)
+                    {
+                        if (Blockult.Enabled)
+                        {
+                            if (ComboFull(t) >= t.Health)
+                            {
+                                _r.Cast(t);
+                            }
+                        }
+                        else
+                        {
+                            _r.Cast(t);
+                        }
+                    }
+                    if (_r.IsReady() && t.IsValidTarget(_r.Range) && ObjectManager.Player.HasBuff("AkaliR"))
+                    {
+                        if (R2kill.Enabled && _r.GetDamage(t, DamageStage.SecondCast) >= t.Health || ObjectManager.Player.Buffs.Find(buff => buff.Name == "AkaliR").EndTime <= 500f && R2.Enabled)
+                        {
+                            _r.Cast(t);
+                        }
+                    }
+                    break;
+                case 1:
+                    if (_e.IsReady() && t.IsValidTarget(_e.Range) && Ecombo.Enabled && !t.HasBuff("AkaliEMis"))
+                    {
+                        _e.Cast(t);
+                    }
+                    if (etarget.HasBuff("AkaliEMis") && Ecombo.Enabled)
+                    {
+                        _e.Cast();
+                    }
+                    if (_q.IsReady() && t.IsValidTarget(_q.Range) && Qcombo.Enabled)
+                    {
+                        _q.Cast(t);
+                    }
+                    if (_r.IsReady() && t.IsValidTarget(_r.Range) && !ObjectManager.Player.HasBuff("AkaliR") && R1.Enabled)
+                    {
+                        if (Blockult.Enabled)
+                        {
+                            if (ComboFull(t) >= t.Health)
+                            {
+                                _r.Cast(t);
+                            }
+                        }
+                        else
+                        {
+                            _r.Cast(t);
+                        }
+                    }
+                    if (_r.IsReady() && t.IsValidTarget(_r.Range) && ObjectManager.Player.HasBuff("AkaliR"))
+                    {
+                        if (R2kill.Enabled && _r.GetDamage(t, DamageStage.SecondCast) >= t.Health || ObjectManager.Player.Buffs.Find(buff => buff.Name == "AkaliR").EndTime <= 500f && R2.Enabled)
+                        {
+                            _r.Cast(t);
+                        }
+                    }
+                    break;
             }
 
         }
@@ -179,8 +239,33 @@ namespace KDA_Akali
             return d;
         }
 
+
+        private static void DoKs()
+        {
+            try
+            { 
+                var t = TargetSelector.GetTarget(_r.Range);
+                if (t != null)
+                {
+                    if (_q.IsReady() && t.Health < _q.GetDamage(t) && t.IsValidTarget(_q.Range) && Qks.Enabled)
+                        _q.Cast(t);
+                    if ( _r.IsReady() && !ObjectManager.Player.HasBuff("AkaliR") && _r.GetDamage(t,DamageStage.Default) > t.Health && R1ks.Enabled)
+                    {
+                        _r.Cast(t);
+                    }
+                    if (_r.IsReady() && ObjectManager.Player.HasBuff("AkaliR") && _r.GetDamage(t, DamageStage.SecondCast) > t.Health && R2ks.Enabled)
+                    {
+                        _r.Cast(t);
+                    }
+                }
+            }
+            catch { }
+        }
+
         private static void DoClear()
         {
+            if (!Qclear.Enabled)
+                return;
             var minions = GameObjects.EnemyMinions.Where(x => x.IsValidTarget(_q.Range) && x.IsMinion())
     .Cast<AIBaseClient>().ToList();
             if (minions.Any())
@@ -194,6 +279,8 @@ namespace KDA_Akali
         }
         private static void DoJungleClear()
         {
+            if (!Qclear.Enabled)
+                return;
             var mob = GameObjects.Jungle
                 .Where(x => x.IsValidTarget(_q.Range) && x.GetJungleType() != JungleType.Unknown)
                 .OrderByDescending(x => x.MaxHealth).FirstOrDefault();
@@ -208,6 +295,8 @@ namespace KDA_Akali
         }
         private static void DoFarm()
         {
+            if (!Qfarm.Enabled)
+                return;
             var minions = GameObjects.EnemyMinions.Where(x => x.IsValidTarget(_q.Range) && x.IsMinion() && x.Health < _q.GetDamage(x) && x.DistanceToPlayer() > ObjectManager.Player.GetRealAutoAttackRange())
     .Cast<AIBaseClient>().ToList();
             if (minions.Any())
