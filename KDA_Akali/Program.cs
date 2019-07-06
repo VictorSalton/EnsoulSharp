@@ -14,7 +14,7 @@ namespace KDA_Akali
     class Program
     {
 
-        private static Spell _q, _w, _e, _r, _r2;
+        private static Spell _q, _w, _e, _r, _e2;
         private static Menu _menu;
 
 
@@ -53,6 +53,7 @@ namespace KDA_Akali
         {
             _q = new Spell(SpellSlot.Q, 500f);
             _e = new Spell(SpellSlot.E, 650f);
+            _e2 = new Spell(SpellSlot.E, 2000f);
             _r = new Spell(SpellSlot.R, 575f);
             _q.SetSkillshot(0.25f, 70f, 1200f, false, SkillshotType.Cone);
             _e.SetSkillshot(0.25f, 70f, 1200f, true, SkillshotType.Line);
@@ -124,15 +125,18 @@ namespace KDA_Akali
         {
             var t = TargetSelector.GetTarget(_q.Range);
             var etarget = TargetSelector.GetTarget(2000f);
+            if (etarget != null)
+            {
+                if (etarget.HasBuff("AkaliEMis") && Ecombo.Enabled)
+                {
+                    _e2.Cast();
+                }
+            }
             if (t == null)
                 return;
             switch (combomode.Index)
             {
                 case 0:
-                    if (etarget.HasBuff("AkaliEMis") && Ecombo.Enabled)
-                    {
-                        _e.Cast();
-                    }
 
                     if (_q.IsReady() && t.IsValidTarget(_q.Range) && Qcombo.Enabled)
                     {
@@ -169,10 +173,6 @@ namespace KDA_Akali
                     if (_e.IsReady() && t.IsValidTarget(_e.Range) && Ecombo.Enabled && !t.HasBuff("AkaliEMis"))
                     {
                         _e.Cast(t);
-                    }
-                    if (etarget.HasBuff("AkaliEMis") && Ecombo.Enabled)
-                    {
-                        _e.Cast();
                     }
                     if (_q.IsReady() && t.IsValidTarget(_q.Range) && Qcombo.Enabled)
                     {
