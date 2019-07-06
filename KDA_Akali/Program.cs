@@ -29,8 +29,8 @@ namespace KDA_Akali
         private static readonly MenuBool R1 = new MenuBool("r1", "Use R1");
         private static readonly MenuBool Blockult = new MenuBool("blockult", "^ Only if Combo Damage > HP target",false);
         private static readonly MenuSlider Rstart = new MenuSlider("Rstart", "Use R1 to start if Hit X enemies (use 0 to disable)", 3, 0, 5);
-        private static readonly MenuBool R2kill = new MenuBool("R2kill", "Use R2 if enemy is killable (Thanks for memsenpai)");
-        private static readonly MenuBool R2 = new MenuBool("R2", "Use R2 if Time is running out");
+        private static readonly MenuBool R2kill = new MenuBool("R2kill", "Use R2 if enemy is killable");
+        private static readonly MenuBool R2 = new MenuBool("R2", "Use R2 if Time is running out (Thanks for memsenpai)");
 
         private static readonly MenuBool Qharass = new MenuBool("qharass", "[Q] on Harass");
         private static readonly MenuBool Eharass = new MenuBool("Eharass", "[E] on Harass");
