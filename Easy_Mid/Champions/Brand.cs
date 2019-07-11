@@ -45,8 +45,8 @@ namespace Easy_Mid.Champions
         public static readonly MenuBool autoGap = new MenuBool("autoGap", "Auto Try Cast W+Q on Gapcloser");
 
         //Hit Chance
-        public static readonly MenuList qhit = new MenuList<string>("qhit", "Q - HitChance :", new[] { "High", "Medium", "Low" });
-        public static readonly MenuList whit = new MenuList<string>("whit", "W - HitChance :", new[] { "High", "Medium", "Low" });
+        public static readonly MenuList qhit = new MenuList("qhit", "Q - HitChance :", new[] { "High", "Medium", "Low" });
+        public static readonly MenuList whit = new MenuList("whit", "W - HitChance :", new[] { "High", "Medium", "Low" });
 
         //Draw
         public static readonly MenuBool Qd = new MenuBool("qd", "Draw Q Range");
