@@ -139,7 +139,7 @@ namespace Easy_Sup.scripts
                 if (target != null && target.IsValidTarget(Q.ChargedMaxRange))
                 {
                     var pred = Q.GetPrediction(target);
-                    if (pred.Hitchance >= HitChance.Medium)
+                    if (pred.Hitchance >= qhit)
                     {
                         Q.StartCharging();
                     }

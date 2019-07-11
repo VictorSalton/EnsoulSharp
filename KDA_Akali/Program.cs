@@ -25,7 +25,7 @@ namespace KDA_Akali
         private static readonly MenuBool Qcombo = new MenuBool("qcombo", "[Q] on Combo");
         private static readonly MenuBool Ecombo = new MenuBool("Ecombo", "[E] on Combo");
         private static readonly MenuBool Eblock = new MenuBool("Eblock", "^ Block E2 if enemy is under turret");
-        private static readonly MenuList combomode = new MenuList<string>("combomode", "Combo Mode:", new[] { "Q->E", "E->Q"});
+        private static readonly MenuList combomode = new MenuList("combomode", "Combo Mode:", new[] { "Q->E", "E->Q"});
         private static readonly MenuBool R1 = new MenuBool("r1", "Use R1");
         private static readonly MenuBool Blockult = new MenuBool("blockult", "^ Only if Combo Damage > HP target",false);
         private static readonly MenuSlider Rstart = new MenuSlider("Rstart", "Use R1 to start if Hit X enemies (use 0 to disable)", 3, 0, 5);

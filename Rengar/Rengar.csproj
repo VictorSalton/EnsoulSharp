@@ -37,7 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EnsoulSharp.SDK">
-      <HintPath>C:\Users\T-Gamer\Desktop\Server\LOLAC-cleaned\EnsoulSharp.Dependencies-master\System\EnsoulSharp.SDK.dll</HintPath>
+      <HintPath>..\..\System\EnsoulSharp.SDK.dll</HintPath>
     </Reference>
     <Reference Include="EnsoulSharp.Wrapper">
       <HintPath>C:\Users\T-Gamer\Desktop\Server\LOLAC-cleaned\EnsoulSharp.Dependencies-master\System\EnsoulSharp.Wrapper.dll</HintPath>

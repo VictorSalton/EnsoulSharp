@@ -31,7 +31,7 @@ namespace Easy_Mid.Champions
         public static readonly MenuBool Qharass = new MenuBool("qharass", "Use [Q] on Harass");
         public static readonly MenuBool Qfarm = new MenuBool("qfarm", "Use [Q] to farm if Minion is out AA range");
         public static readonly MenuBool Qclear = new MenuBool("qclear", "Use [Q] to Clear Wave");
-        public static readonly MenuList qhit = new MenuList<string>("qhit", "HitChance :", new[] { "High", "Medium", "Low" });
+        public static readonly MenuList qhit = new MenuList("qhit", "HitChance :", new[] { "High", "Medium", "Low" });
 
         //W
         public static readonly MenuBool Wcombo = new MenuBool("wcombo", "Use [W] on Combo");
@@ -48,7 +48,7 @@ namespace Easy_Mid.Champions
         public static readonly MenuBool Rkill = new MenuBool("rkill", "Use R to kill even if not reset(On Combo)");
         public static readonly MenuBool Rks = new MenuBool("rks", "Use R to KS");
         public static readonly MenuSlider Rturret = new MenuSlider("rturret", "Don't use ult under Turret if HP% <  ",60,0,100);
-        public static readonly MenuList rmode = new MenuList<string>("rmode", "Combo Mode :", new[] { "Q+R", "R+Q(Misaya Combo)"});
+        public static readonly MenuList rmode = new MenuList("rmode", "Combo Mode :", new[] { "Q+R", "R+Q(Misaya Combo)"});
         #endregion
 
 

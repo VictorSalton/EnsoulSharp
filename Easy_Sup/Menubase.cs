@@ -128,9 +128,9 @@ namespace Easy_Sup
 
         public class lux_hit
         {
-            public static readonly MenuList qhit = new MenuList<string>("qhit", "Q - HitChance :", new[] { "High", "Medium", "Low" });
-            public static readonly MenuList ehit = new MenuList<string>("ehit", "E - HitChance :", new[] { "High", "Medium", "Low" });
-            public static readonly MenuList rhit = new MenuList<string>("rhit", "R - HitChance :", new[] { "High", "Medium", "Low" });
+            public static readonly MenuList qhit = new MenuList("qhit", "Q - HitChance :", new[] { "High", "Medium", "Low" });
+            public static readonly MenuList ehit = new MenuList("ehit", "E - HitChance :", new[] { "High", "Medium", "Low" });
+            public static readonly MenuList rhit = new MenuList("rhit", "R - HitChance :", new[] { "High", "Medium", "Low" });
         }
 
         public class Pyke_Combat

@@ -32,7 +32,7 @@ namespace Rengar
             combo.Add(RengarMenu.combat.W);
             combo.Add(RengarMenu.combat.E);
             combo.Add(RengarMenu.combat.focus);
-            combo.Add(new MenuList<string>("target", "Target Focus", new[] { "Most AD", "Most AP", "Squishy" , "Lower HP" }, ObjectManager.Player.CharacterName) { Index = 2 });
+            combo.Add(new MenuList("target", "Target Focus", new[] { "Most AD", "Most AP", "Squishy" , "Lower HP" }, 2));
 
             var jg = new Menu("jg", "Jungle Clear/Lane Clear Config");
             jg.Add(RengarMenu.jg.Q);

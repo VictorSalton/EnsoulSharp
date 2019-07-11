@@ -171,7 +171,7 @@ namespace Easy_Sup
             heal.Add(Menubase.soraka_heal.W);
             heal.Add(Menubase.soraka_heal.allyHeal);
             heal.Add(Menubase.soraka_heal.myHeal);
-            heal.Add(new MenuList<string>("wuse", "Healing Priority(Press F5 after change) : ", new[] { "Most AD", "Most AP", " Lower HP%" }, ObjectManager.Player.CharacterName){ Index = 2});
+            heal.Add(new MenuList("wuse", "Healing Priority(Press F5 after change) : ", new[] { "Most AD", "Most AP", " Lower HP%" }));
 
             var ult = new Menu("Ultimate", "Ultimate Config");
             ult.Add(Menubase.soraka_ultimate.R);
@@ -189,7 +189,7 @@ namespace Easy_Sup
             IsMenu.Add(Draw);
             IsMenu.Attach();
 
-            switch (heal.GetValue<MenuList<string>>("wuse").Index)
+            switch (heal.GetValue<MenuList>("wuse").Index)
             {
                 case 0:
                     focus = 0;

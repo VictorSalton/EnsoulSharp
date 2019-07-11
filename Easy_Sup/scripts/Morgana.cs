@@ -21,7 +21,7 @@ namespace Easy_Sup.scripts
         #region
         //q
         public static readonly MenuBool Qpred = new MenuBool("qpred", "Draw Q Prediction");
-        public static readonly MenuList qhit = new MenuList<string>("qhit", "Q - HitChance :", new[] { "High", "Medium", "Low" });
+        public static readonly MenuList qhit = new MenuList("qhit", "Q - HitChance :", new[] { "High", "Medium", "Low" });
         public static readonly MenuBool Qcombo = new MenuBool("qcombo", "Use Q on Combo");
         public static readonly MenuBool Qharass = new MenuBool("qharass", "Use Q on Harass");
         public static readonly MenuSlider qmana = new MenuSlider("qmana", "^ Mana >= X%", 60, 0, 100);
@@ -32,7 +32,7 @@ namespace Easy_Sup.scripts
 
         //w
         public static readonly MenuBool Wcombo = new MenuBool("wcombo", "Use W on Combo");
-        public static readonly MenuList wmode = new MenuList<string>("whit", "W - Mode :", new[] { "Allways", "Target Immobile"});
+        public static readonly MenuList wmode = new MenuList("whit", "W - Mode :", new[] { "Allways", "Target Immobile"});
         public static readonly MenuSlider Wticks = new MenuSlider("wtick", "W Combo Damage Ticks", 6, 3, 10);
         public static readonly MenuBool Wharass = new MenuBool("wharass", "Use W on Harass");
         public static readonly MenuSlider wmana = new MenuSlider("wmana", "^ Mana >= X%", 60, 0, 100);

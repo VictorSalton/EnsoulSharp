@@ -22,7 +22,6 @@ using System.Linq;
 using EnsoulSharp;
 using EnsoulSharp.SDK;
 using EnsoulSharp.SDK.Prediction;
-
 using SharpDX;
 
 namespace SPrediction
