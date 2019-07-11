@@ -1,5 +1,4 @@
-﻿using Easy_Sup.Properties;
-using Easy_Sup.scripts;
+﻿using Easy_Sup.scripts;
 using EnsoulSharp;
 using EnsoulSharp.SDK;
 using EnsoulSharp.SDK.Utility;

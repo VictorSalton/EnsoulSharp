@@ -54,9 +54,7 @@ namespace Easy_Sup.scripts
             combo1.Add(Menubase.blitz_combat.Rb);
             combo1.Add(Menubase.blitz_combat.Rcount);
             combo1.Add(Menubase.blitz_combat.qhit);
-            var key = new Menu("key", "Key Active");
-            key.Add(new MenuKeyBind("combokey", "Combo Key", System.Windows.Forms.Keys.Space, KeyBindType.Press, ObjectManager.Player.CharacterName));
-            combo1.Add(key);
+
             //var Qconfig = new Menu("grab", "Q Config(Not Work at moment)");
             //foreach (var inimigo in GameObjects.EnemyHeroes)
             // {
