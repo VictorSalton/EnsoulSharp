@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("KDA_Akali")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Putão com Tesão")]
+[assembly: AssemblyCompany("Putão Com Tesão")]
 [assembly: AssemblyProduct("KDA_Akali")]
 [assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // O GUID a seguir será destinado à ID de typelib se este projeto for exposto para COM
-[assembly: Guid("ff39c866-c0b0-47d9-be37-23bc978ab464")]
+[assembly: Guid("342de6a7-ea0f-47f2-ad9d-68a5c4a316be")]
 
 // As informações da versão de um assembly consistem nos quatro valores a seguir:
 //
