@@ -47,7 +47,7 @@ namespace Zed_is_Back_Bitches
         {
             try
             {
-                Chat.PrintChat("This script is a Port of Zed is Back (Code of Jackisback)");
+                Chat.Print("This script is a Port of Zed is Back (Code of Jackisback)");
 
                 _player = ObjectManager.Player;
                 if (ObjectManager.Player.CharacterName != ChampionName) return;

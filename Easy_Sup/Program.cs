@@ -48,33 +48,33 @@ namespace Easy_Sup
         private static void On_LoadGame()
         {
 
-            Chat.PrintChat("Supported Champions: Alistar, Blitz, Lux, Morgana, Pyke, Soraka, Thresh");
-            Chat.PrintChat("SPrediction Port By Mask");
+            Chat.Print("Supported Champions: Alistar, Blitz, Lux, Morgana, Pyke, Soraka, Thresh");
+            Chat.Print("SPrediction Port By Mask");
             if (ObjectManager.Player.CharacterName == "Soraka")
             {
                 Soraka.Load();
-                Chat.PrintChat("Soraka Script Load");
+                Chat.Print("Soraka Script Load");
             }
             else if (ObjectManager.Player.CharacterName == "Blitzcrank")
             {
                 Blitz.BlitzOnLoad();
-                Chat.PrintChat("Blitzcrank Script Load");
-                Chat.PrintChat("This script is a Port of KurisuBlitz (Code of Kurisu)");
+                Chat.Print("Blitzcrank Script Load");
+                Chat.Print("This script is a Port of KurisuBlitz (Code of Kurisu)");
             }
             else if (ObjectManager.Player.CharacterName == "Lux")
             {
                 Lux.Load();
-                Chat.PrintChat("Partial Port of ChewyMoon Lux Load");
+                Chat.Print("Partial Port of ChewyMoon Lux Load");
             }
             else if (ObjectManager.Player.CharacterName == "Pyke")
             {
                 Pyke.On_Load();
-                Chat.PrintChat("011110001.Pyke Load");
+                Chat.Print("011110001.Pyke Load");
             }
             else if (ObjectManager.Player.CharacterName == "Thresh")
             {
                 Thresh.OnLoad();
-                Chat.PrintChat("011110001.Thresh Load");
+                Chat.Print("011110001.Thresh Load");
             }
             else if (ObjectManager.Player.CharacterName == "Alistar")
             {
@@ -83,8 +83,8 @@ namespace Easy_Sup
             else if(ObjectManager.Player.CharacterName == "Morgana")
             {
                 Morgana.OnLoad();
-                Chat.PrintChat("Morgana Script Load");
-                Chat.PrintChat("This script is a Port of Kurisu Morgana (Code of Kurisu)");
+                Chat.Print("Morgana Script Load");
+                Chat.Print("This script is a Port of Kurisu Morgana (Code of Kurisu)");
             }
         }
 

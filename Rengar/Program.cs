@@ -25,8 +25,8 @@ namespace Rengar
             {
                 return;
             }
-            Chat.PrintChat("Simple Rengar Script Load");
-            Chat.PrintChat("This script is a Port of ElRengar (Code of jQuery)");
+            Chat.Print("Simple Rengar Script Load");
+            Chat.Print("This script is a Port of ElRengar (Code of jQuery)");
             Rengar_.OnLoad();
 
         }

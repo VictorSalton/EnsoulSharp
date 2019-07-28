@@ -24,7 +24,7 @@ namespace Easy_Mid
             if (ObjectManager.Player.CharacterName == "Diana")
             {
                 Diana.OnLoad();
-                Chat.PrintChat("This script is a Port of ElDiana (Code of jQuery)");
+                Chat.Print("This script is a Port of ElDiana (Code of jQuery)");
             }
         }
     }
