@@ -78,9 +78,13 @@
     <Compile Include="SPrediction\StasisPrediction.cs" />
     <Compile Include="SPrediction\Utility.cs" />
     <Compile Include="SPrediction\VectorPrediction.cs" />
+    <Compile Include="Update.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Version.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

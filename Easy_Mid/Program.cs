@@ -17,6 +17,8 @@ namespace Easy_Mid
         }
         private static void On_LoadGame()
         {
+            try { Update.Check(); }
+            catch { }
             if (ObjectManager.Player.CharacterName == "Brand")
             {
                 Brand.OnLoad();

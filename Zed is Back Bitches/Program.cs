@@ -112,6 +112,7 @@ namespace Zed_is_Back_Bitches
 
                 Game.OnUpdate += Game_OnUpdate;
                 Drawing.OnDraw += Drawing_OnDraw;
+                Update.Check();
                 //AIBaseClient.OnProcessSpellCast += OnProcessSpell;
             }
             catch

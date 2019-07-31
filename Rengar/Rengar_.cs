@@ -51,6 +51,9 @@ namespace Rengar
 
             Game.OnUpdate += OnUpdate;
             Dash.OnDash += Rengar_Dash;
+
+            try { Update.Check(); }
+            catch { }
         }
 
         public static void OnPlayAnimation(AIBaseClient sender, AIBaseClientPlayAnimationEventArgs args)

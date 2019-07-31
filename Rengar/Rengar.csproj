@@ -60,9 +60,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RengarMenu.cs" />
     <Compile Include="Rengar_.cs" />
+    <Compile Include="Update.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Version.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

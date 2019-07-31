@@ -47,7 +47,8 @@ namespace Easy_Sup
         }
         private static void On_LoadGame()
         {
-
+            try { Update.Check(); }
+            catch { }
             Chat.Print("Supported Champions: Alistar, Blitz, Lux, Morgana, Pyke, Soraka, Thresh");
             Chat.Print("SPrediction Port By Mask");
             if (ObjectManager.Player.CharacterName == "Soraka")

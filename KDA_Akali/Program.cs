@@ -63,6 +63,12 @@ namespace KDA_Akali
                 ObjectManager.Player.SetSkin(9);
             CreateMenu();
             Game.OnUpdate += OnTick;
+
+            try
+            {
+                Update.Check();
+            }
+            catch { }
         }
 
         private static void CreateMenu()
