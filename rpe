@@ -54,7 +54,7 @@ begin
         SendNumPacket(skill1, 1, 5);
         SendNumPacket(skill2, 1, 5);
         SendNumPacket(skill3, 1, 50);
-        //SendNumPacket('3C0805009A0205881E00', 1, 5);
+        SendNumPacket('3C08010042002D8A1E00', 1, 5);
 
     end;
     JaimeNeggy := False;
