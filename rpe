@@ -51,10 +51,10 @@ begin
     begin
         SendNumPacket(skillPacket, 1, 1);
         //ShowMessage('nova = '+nova+' antiga =' + skillPacket +' skill1 ='+skill1);
-        SendNumPacket(skill1, 1, 5);
-        SendNumPacket(skill2, 1, 5);
-        //SendNumPacket(skill3, 1, 50);
-        //SendNumPacket('3C08010042002D8A1E00', 1, 5);
+        //SendNumPacket(skill1, 1, 5);
+        //SendNumPacket(skill2, 1, 5);
+        SendNumPacket(skill3, 1, 10);
+        SendNumPacket('3C08010042002D8A1E00', 1, 5);
 
     end;
     JaimeNeggy := False;
@@ -76,7 +76,7 @@ begin
         ArthurAutistic := False;
         
         // #Trigger:
-        if (pos('3C080A00C406',MaxNazi) <> 0) then
+        if (pos('3C080A000302',MaxNazi) <> 0) then
         begin
                 
             @Send_Callback := LableePango;
