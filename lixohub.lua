@@ -5157,87 +5157,86 @@ Main:Toggle("Auto Maestria De Fruta🍎",_G.AutoFarmFruitMastery,function(value)
   StopTween(_G.AutoFarmGunMastery)
   end)
  
-  spawn(function()
-    pcall(function()
-     while wait() do
-     if _G.AutoFarmGunMastery then
-     local QuestTitle = game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text
-     if not string.find(QuestTitle, NameMon) then
-     StartMagnet = false
-     game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
-     end
-     if game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == false then
+ spawn(function()
+  pcall(function()
+   while wait() do
+   if _G.AutoFarmGunMastery then
+   local QuestTitle = game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text
+   if not string.find(QuestTitle, NameMon) then
+   StartMagnet = false
+   game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
+   end
+   if game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == false then
+   StartMasteryGunStartMagnet = false
+   CheckQuest()
+   topos(CFrameQuest)
+   if (CFrameQuest.Position - game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 10 then
+   wait(1.2)
+   game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StartQuest", NameQuest, LevelQuest)
+   end
+   elseif game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == true then
+   CheckQuest()
+   if game:GetService("Workspace").Enemies:FindFirstChild(Ms) then
+   pcall(function()
+    for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+    if v.Name == Ms then
+    repeat task.wait()
+    if string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text, NameMon) then
+    HealthMs = v.Humanoid.MaxHealth * _G.Kill_At/100
+    if v.Humanoid.Health <= HealthMs then
+    EquipWeapon(SelectWeaponGun)
+    topos(v.HumanoidRootPart.CFrame * MethodFarm)
+    v.Humanoid.WalkSpeed = 0
+    v.HumanoidRootPart.CanCollide = false
+    v.HumanoidRootPart.Size = Vector3.new(2,2,1)
+    v.Head.CanCollide = false
+    local args = {
+     [1] = v.HumanoidRootPart.Position,
+     [2] = v.HumanoidRootPart
+    }
+    game:GetService("Players").LocalPlayer.Character[SelectWeaponGun].RemoteFunctionShoot:InvokeServer(unpack(args))
+    UseSkill = true
+    else
+     UseSkill = false
+     AutoHaki()
+    EquipWeapon(_G.Select_Weapon)
+    v.Humanoid.WalkSpeed = 0
+    v.HumanoidRootPart.CanCollide = false
+    v.Head.CanCollide = false
+    v.HumanoidRootPart.Size = Vector3.new(50,50,50)
+    topos(v.HumanoidRootPart.CFrame * MethodFarm)
+    game:GetService'VirtualUser':CaptureController()
+    game:GetService'VirtualUser':Button1Down(Vector2.new(1280, 672))
+    end
+    StartMasteryGunStartMagnet = true
+    PosMonMasteryGun = v.HumanoidRootPart.CFrame
+    else
      StartMasteryGunStartMagnet = false
-     CheckQuest()
-     topos(CFrameQuest)
-     if (CFrameQuest.Position - game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 10 then
-     wait(1.2)
-     game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StartQuest", NameQuest, LevelQuest)
-     end
-     elseif game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == true then
-     CheckQuest()
-     if game:GetService("Workspace").Enemies:FindFirstChild(Ms) then
-     pcall(function()
-      for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-      if v.Name == Ms then
-      repeat task.wait()
-      if string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text, NameMon) then
-      HealthMs = v.Humanoid.MaxHealth * _G.Kill_At/100
-      if v.Humanoid.Health <= HealthMs then
-      EquipWeapon(SelectWeaponGun)
-      topos(v.HumanoidRootPart.CFrame * MethodFarm)
-      v.Humanoid.WalkSpeed = 0
-      v.HumanoidRootPart.CanCollide = false
-      v.HumanoidRootPart.Size = Vector3.new(2,2,1)
-      v.Head.CanCollide = false
-      UseSkill = true
-      else
-        UseSkill = false
-      local args = {
-       [1] = v.HumanoidRootPart.Position,
-       [2] = v.HumanoidRootPart
-      }
-      game:GetService("Players").LocalPlayer.Character[SelectWeaponGun].RemoteFunctionShoot:InvokeServer(unpack(args))
-      else
-       AutoHaki()
-      EquipWeapon(_G.Select_Weapon)
-      v.Humanoid.WalkSpeed = 0
-      v.HumanoidRootPart.CanCollide = false
-      v.Head.CanCollide = false
-      v.HumanoidRootPart.Size = Vector3.new(50,50,50)
-      topos(v.HumanoidRootPart.CFrame * MethodFarm)
-      game:GetService'VirtualUser':CaptureController()
-      game:GetService'VirtualUser':Button1Down(Vector2.new(1280, 672))
-      end
-      StartMasteryGunStartMagnet = true
-      PosMonMasteryGun = v.HumanoidRootPart.CFrame
-      else
-       StartMasteryGunStartMagnet = false
-      game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
-      end
-      until v.Humanoid.Health <= 0 or _G.AutoFarmGunMastery == false or game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == false
-      StartMasteryGunStartMagnet = false
-      end
-      end
-      end)
-     else
-      StartMasteryGunStartMagnet = false
-     local Mob = game:GetService("ReplicatedStorage"):FindFirstChild(Ms)
-     if Mob then
-     topos(Mob.HumanoidRootPart.CFrame * MethodFarm)
-     else
-      if game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame.Y <= 1 then
-     game:GetService("Players").LocalPlayer.Character.Humanoid.Jump = true
-     task.wait()
-     game:GetService("Players").LocalPlayer.Character.Humanoid.Jump = false
-     end
-     end
-     end
-     end
-     end
-     end
-     end)
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
+    end
+    until v.Humanoid.Health <= 0 or _G.AutoFarmGunMastery == false or game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == false
+    StartMasteryGunStartMagnet = false
+    end
+    end
+    end)
+   else
+    StartMasteryGunStartMagnet = false
+   local Mob = game:GetService("ReplicatedStorage"):FindFirstChild(Ms)
+   if Mob then
+   topos(Mob.HumanoidRootPart.CFrame * MethodFarm)
+   else
+    if game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame.Y <= 1 then
+   game:GetService("Players").LocalPlayer.Character.Humanoid.Jump = true
+   task.wait()
+   game:GetService("Players").LocalPlayer.Character.Humanoid.Jump = false
+   end
+   end
+   end
+   end
+   end
+   end
    end)
+ end)
 
  
 Main:Seperator(" Bosses 👑 ")
