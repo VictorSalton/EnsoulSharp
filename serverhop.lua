@@ -1,5 +1,5 @@
 local HttpService = game:GetService("HttpService")
-print("v4")
+print("v5")
 function HopServer()
   print("HOPSERVER CHAMADO")
   local function Hop()
@@ -114,13 +114,14 @@ spawn(function()
 		end
 
 
-        wait(5)
+    
 
 
 		if(not hasFruit and not goodFruit) then
 			print("Not Fruit HOP")
 			HopServer()
-		else 
+		else
+            wait(15)
 			for i,v in pairs(game:GetService("Players").LocalPlayer.Backpack:GetChildren()) do
 				if string.find(v.Name, "Fruit") then
 					if string.find(v.Name, "Dough") then
