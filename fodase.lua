@@ -96,21 +96,8 @@ local wantedFruits = {
  print("Main Menu Loaded")
  
  
- pcall(
-	game:GetService("ReplicatedStorage").Remotes["CommF_"]:InvokeServer("SetTeam", "Pirates")
-	game:GetService("Players")["LocalPlayer"].PlayerGui.Main.ChooseTeam.Container.Pirates.Frame.ViewportFrame.TextButton.Size = UDim2.new(0, 10000, 0, 10000)
-	game:GetService("Players")["LocalPlayer"].PlayerGui.Main.ChooseTeam.Container.Pirates.Frame.ViewportFrame.TextButton.Position = UDim2.new(-4, 0, -5, 0)
-	game:GetService("Players")["LocalPlayer"].PlayerGui.Main.ChooseTeam.Container.Pirates.Frame.ViewportFrame.TextButton.BackgroundTransparency = 1
-	task.wait(1)
-	game:GetService("VirtualInputManager"):SendMouseButtonEvent(500,500, 0, true, game, 1)
-	game:GetService("VirtualInputManager"):SendMouseButtonEvent(500,500, 0, false, game, 1)
-	task.wait(1)
-	game:GetService("VirtualInputManager"):SendMouseButtonEvent(500,500, 0, true, game, 1)
-	game:GetService("VirtualInputManager"):SendMouseButtonEvent(500,500, 0, false, game, 1)
-	
-	repeat task.wait(1) until game.Workspace.Characters:FindFirstChild(game.Players.LocalPlayer.Name)
- )
- 
+
+ wait(5)
  while true do
 	local model = game.Workspace:FindFirstChild("Fruit ")
 	if not model or not model:IsA("Model") then
