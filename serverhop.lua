@@ -36,6 +36,7 @@ function HopServer()
       game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(child)
       getgenv().Loaded = true
   end
+while not Hop() do wait() end
 end
 
 local goodFruit = false
