@@ -1,5 +1,5 @@
 local HttpService = game:GetService("HttpService")
-print("v5")
+print("v6")
 function HopServer()
   print("HOPSERVER CHAMADO")
   local function Hop()
@@ -42,7 +42,7 @@ while not Hop() do wait() end
 end
 
 local goodFruit = false
-
+local hasFruit = false
 
 spawn(function()
 	while wait(5) and goodFruit == false do
