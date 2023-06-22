@@ -1,7 +1,9 @@
 local HttpService = game:GetService("HttpService")
-
+print("v2")
 function HopServer()
+  print("HOPSERVER CHAMADO")
   local function Hop()
+      print("HOP CHAMADO")
       for i=1,100 do
           local huhu = game:GetService("ReplicatedStorage").__ServerBrowser:InvokeServer(i)
           for k,v in pairs(huhu) do
