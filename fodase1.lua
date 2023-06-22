@@ -1,5 +1,5 @@
 
-print("v3")
+print("v4")
 
 wait(5)
 local wantedFruits = {
@@ -139,4 +139,7 @@ local wantedFruits = {
  end
  
  wait(5)
+while true do
  HopServer()
+ wait(5)
+end
