@@ -43,8 +43,68 @@ end
 
 local goodFruit = false
 
+
 spawn(function()
 	while wait(5) and goodFruit == false do
+
+        for i,v in pairs(game:GetService("Players").LocalPlayer.Backpack:GetChildren()) do
+            if string.find(v.Name, "Fruit") then
+                if string.find(v.Name, "Dough") then
+                    goodFruit = true;
+                end
+
+                if string.find(v.Name, "Dragon") then
+                    goodFruit = true;
+                end
+
+                if string.find(v.Name, "Leopard") then
+                    goodFruit = true;
+                end
+
+                if string.find(v.Name, "Shadow") then
+                    goodFruit = true;
+                end
+
+                if string.find(v.Name, "Control") then
+                    goodFruit = true;
+                end
+
+                if string.find(v.Name, "Venom") or string.find(v.Name, "Buddha") or string.find(v.Name, "Spirit") then
+                    goodFruit = true;
+                end
+            end
+        end
+
+        for i,v in pairs(game:GetService("Players").LocalPlayer.Character:GetChildren()) do
+            if string.find(v.Name, "Fruit") then
+                if string.find(v.Name, "Dough") then
+                    goodFruit = true;
+                end
+
+                if string.find(v.Name, "Dragon") then
+                    goodFruit = true;
+                end
+
+                if string.find(v.Name, "Leopard") then
+                    goodFruit = true;
+                end
+
+                if string.find(v.Name, "Shadow") then
+                    goodFruit = true;
+                end
+
+                if string.find(v.Name, "Control") then
+                    goodFruit = true;
+                end
+
+                if string.find(v.Name, "Venom") or string.find(v.Name, "Buddha") or string.find(v.Name, "Spirit") then
+                    goodFruit = true;
+                end
+            end
+        end
+
+
+
 		for i,v in pairs(game.Workspace:GetChildren()) do
 			if string.find(v.Name, "Fruit") then
 				hasFruit = true
@@ -53,7 +113,7 @@ spawn(function()
 			end
 		end
 
-		if(not hasFruit) then
+		if(not hasFruit and not goodFruit) then
 			print("Not Fruit HOP")
 			HopServer()
 		else 
