@@ -38,4 +38,84 @@ function HopServer()
   end
   while not Hop() do wait() end
 end
-HopServer()
+
+local goodFruit = false
+
+spawn(function()
+	while wait(5) and goodFruit == false do
+		for i,v in pairs(game.Workspace:GetChildren()) do
+			if string.find(v.Name, "Fruit") then
+				hasFruit = true
+				print(v.Name)
+				game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Handle.CFrame
+			end
+		end
+
+		if(not hasFruit) then
+			print("Not Fruit HOP")
+		else 
+			for i,v in pairs(game:GetService("Players").LocalPlayer.Backpack:GetChildren()) do
+				if string.find(v.Name, "Fruit") then
+					if string.find(v.Name, "Dough") then
+						goodFruit = true;
+					end
+
+					if string.find(v.Name, "Dragon") then
+						goodFruit = true;
+					end
+
+					if string.find(v.Name, "Leopard") then
+						goodFruit = true;
+					end
+
+					if string.find(v.Name, "Shadow") then
+						goodFruit = true;
+					end
+
+					if string.find(v.Name, "Control") then
+						goodFruit = true;
+					end
+
+					if string.find(v.Name, "Venom") or string.find(v.Name, "Buddha") or string.find(v.Name, "Spirit") then
+						goodFruit = true;
+					end
+				end
+			end
+
+			for i,v in pairs(game:GetService("Players").LocalPlayer.Character:GetChildren()) do
+				if string.find(v.Name, "Fruit") then
+					if string.find(v.Name, "Dough") then
+						goodFruit = true;
+					end
+
+					if string.find(v.Name, "Dragon") then
+						goodFruit = true;
+					end
+
+					if string.find(v.Name, "Leopard") then
+						goodFruit = true;
+					end
+
+					if string.find(v.Name, "Shadow") then
+						goodFruit = true;
+					end
+
+					if string.find(v.Name, "Control") then
+						goodFruit = true;
+					end
+
+					if string.find(v.Name, "Venom") or string.find(v.Name, "Buddha") or string.find(v.Name, "Spirit") then
+						goodFruit = true;
+					end
+				end
+			end
+			
+			if(goodFruit == false) then
+				print("SO LIXO HOP")
+				loadstring(game:HttpGet('https://raw.githubusercontent.com/011110001/EnsoulSharp/master/serverhop.lua'))()
+			else
+				print("FRUTA BOAAAA")
+			end
+		end
+	end
+end)
