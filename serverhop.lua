@@ -52,6 +52,7 @@ spawn(function()
 
 		if(not hasFruit) then
 			print("Not Fruit HOP")
+			HopServer()
 		else 
 			for i,v in pairs(game:GetService("Players").LocalPlayer.Backpack:GetChildren()) do
 				if string.find(v.Name, "Fruit") then
@@ -111,7 +112,7 @@ spawn(function()
 			
 			if(goodFruit == false) then
 				print("SO LIXO HOP")
-				loadstring(game:HttpGet('https://raw.githubusercontent.com/011110001/EnsoulSharp/master/serverhop.lua'))()
+				HopServer()
 			else
 				print("FRUTA BOAAAA")
 			end
