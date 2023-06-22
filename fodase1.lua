@@ -1,5 +1,5 @@
 
-print("v1")
+print("v3")
 
 wait(5)
 local wantedFruits = {
