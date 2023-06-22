@@ -1,5 +1,5 @@
 local HttpService = game:GetService("HttpService")
-print("v3")
+print("v4")
 function HopServer()
   print("HOPSERVER CHAMADO")
   local function Hop()
@@ -112,6 +112,10 @@ spawn(function()
 				game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Handle.CFrame
 			end
 		end
+
+
+        wait(5)
+
 
 		if(not hasFruit and not goodFruit) then
 			print("Not Fruit HOP")
