@@ -4,12 +4,12 @@
     {
       "name": "patch-001.zip",
       "version": "1.0.1",
-      "url": "https://github.com/VictorSalton/EnsoulSharp/raw/master/dataS2.rar"
+      "url": "https://example.com/updates/patch-001.zip"
     },
     {
       "name": "patch-002.zip",
       "version": "1.0.2",
-      "url": "https://github.com/VictorSalton/EnsoulSharp/raw/master/dataS2.rar"
+      "url": "https://example.com/updates/patch-002.zip"
     }
   ]
 }
