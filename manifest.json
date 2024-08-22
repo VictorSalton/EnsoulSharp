@@ -4,7 +4,7 @@
     {
       "name": "patch-001.zip",
       "version": "1.0.1",
-      "url": "https://example.com/updates/patch-001.zip"
+      "url": "https://raw.githubusercontent.com/VictorSalton/EnsoulSharp/master/serverhop.cs"
     },
     {
       "name": "patch-002.zip",
